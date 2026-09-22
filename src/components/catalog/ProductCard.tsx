@@ -50,13 +50,25 @@ export function ProductCard({ machine, catalog }: { machine: Machine; catalog: M
       </div>
 
       <div className="px-5 pt-4">
-        <div className="relative flex aspect-4/3 items-end justify-center rounded-2xl border border-dashed border-border-hover bg-bg p-3.5 [background-image:repeating-linear-gradient(135deg,rgba(109,93,251,0.06)_0_10px,transparent_10px_20px)]">
-          <span className="text-center font-mono text-[10px] leading-relaxed text-muted-2 tracking-[0.04em]">
-            [ IMAGEM OFICIAL ]
-            <br />
-            {machine.name}
-          </span>
-        </div>
+        {machine.image ? (
+          <div className="flex aspect-4/3 items-center justify-center overflow-hidden rounded-2xl border border-border-hover bg-bg p-3.5">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src={machine.image}
+              alt={machine.name}
+              className="h-full w-full object-contain"
+              loading="lazy"
+            />
+          </div>
+        ) : (
+          <div className="relative flex aspect-4/3 items-end justify-center rounded-2xl border border-dashed border-border-hover bg-bg p-3.5 [background-image:repeating-linear-gradient(135deg,rgba(109,93,251,0.06)_0_10px,transparent_10px_20px)]">
+            <span className="text-center font-mono text-[10px] leading-relaxed text-muted-2 tracking-[0.04em]">
+              [ IMAGEM OFICIAL ]
+              <br />
+              {machine.name}
+            </span>
+          </div>
+        )}
       </div>
 
       <div className="flex flex-1 flex-col p-5">
