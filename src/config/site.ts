@@ -1,6 +1,8 @@
 export const siteConfig = {
   name: "comparô",
   description: "Comparador independente de maquininhas de cartão.",
+  // Overridden by NEXT_PUBLIC_SITE_URL once the frontend has a real domain.
+  url: process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000",
   // TODO(fase 4+): substituir por CatalogSync mais recente com status SUCCESS
   // (services/catalog/queries.ts). Placeholder só até o banco existir.
   lastUpdatedLabel: "20/09/2026",

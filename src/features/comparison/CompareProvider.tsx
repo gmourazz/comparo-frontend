@@ -10,6 +10,7 @@ import {
   type ReactNode,
 } from "react";
 import { siteConfig } from "@/config/site";
+import { trackComparisonView, trackMachineCompareAdd, trackMachineCompareRemove } from "@/features/tracking/events";
 
 const STORAGE_KEY = "comparo:compare-slugs";
 
@@ -73,6 +74,7 @@ export function CompareProvider({ children }: { children: ReactNode }) {
     let blocked = false;
     setSlugs((current) => {
       if (current.includes(slug)) {
+        trackMachineCompareRemove(slug);
         return current.filter((s) => s !== slug);
       }
       if (current.length >= siteConfig.maxCompare) {
@@ -80,6 +82,7 @@ export function CompareProvider({ children }: { children: ReactNode }) {
         return current;
       }
       added = true;
+      trackMachineCompareAdd(slug);
       return [...current, slug];
     });
     return { added, blocked };
@@ -87,10 +90,14 @@ export function CompareProvider({ children }: { children: ReactNode }) {
 
   const remove = useCallback((slug: string) => {
     setSlugs((current) => current.filter((s) => s !== slug));
+    trackMachineCompareRemove(slug);
   }, []);
 
   const clear = useCallback(() => setSlugs([]), []);
-  const open = useCallback(() => setIsOpen(true), []);
+  const open = useCallback(() => {
+    setIsOpen(true);
+    if (slugs.length > 0) trackComparisonView(slugs);
+  }, [slugs]);
   const close = useCallback(() => setIsOpen(false), []);
 
   const value = useMemo<CompareContextValue>(

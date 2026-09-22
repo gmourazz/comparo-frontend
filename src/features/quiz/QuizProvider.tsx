@@ -3,6 +3,7 @@
 import { createContext, useCallback, useContext, useMemo, useState, type ReactNode } from "react";
 import { quizQuestions } from "@/config/content/quiz-questions";
 import type { QuizAnswers } from "@/types/quiz";
+import { trackQuizAnswer, trackQuizComplete, trackQuizStart } from "@/features/tracking/events";
 
 interface QuizContextValue {
   isOpen: boolean;
@@ -34,6 +35,7 @@ export function QuizProvider({ children }: { children: ReactNode }) {
     setStepIndex(0);
     setAnswers({});
     setDone(false);
+    trackQuizStart();
   }, []);
   const close = useCallback(() => setIsOpen(false), []);
   const restart = useCallback(() => {
@@ -48,6 +50,7 @@ export function QuizProvider({ children }: { children: ReactNode }) {
       const last = i >= totalSteps - 1;
       if (last) {
         setDone(true);
+        trackQuizComplete();
         return i;
       }
       return i + 1;
@@ -57,6 +60,7 @@ export function QuizProvider({ children }: { children: ReactNode }) {
   const answer = useCallback(
     (questionId: keyof QuizAnswers, value: string) => {
       setAnswers((current) => ({ ...current, [questionId]: value }) as QuizAnswers);
+      trackQuizAnswer(questionId, value);
       advance();
     },
     [advance],

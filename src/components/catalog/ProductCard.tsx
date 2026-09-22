@@ -108,6 +108,7 @@ export function ProductCard({ machine, catalog }: { machine: Machine; catalog: M
         <div className="mt-auto flex flex-col gap-2.5 pt-5">
           <BuyLink
             machine={machine}
+            placement="machine_card"
             className="flex h-12 items-center justify-center rounded-xl bg-primary font-inter text-[15px] font-semibold text-white hover:bg-primary-dark"
           >
             Quero essa maquininha

@@ -10,12 +10,17 @@ import { FeesSection } from "@/components/home/FeesSection";
 import { HighlightsSection } from "@/components/home/HighlightsSection";
 import { FaqAccordion } from "@/components/home/FaqAccordion";
 import { FinalCtaSection } from "@/components/home/FinalCtaSection";
+import { JsonLd } from "@/components/seo/JsonLd";
+import { buildFaqJsonLd, buildItemListJsonLd } from "@/lib/structured-data";
+import { faqData } from "@/config/content/faq";
 
 export default async function HomePage() {
   const machines = await getActiveMachines();
 
   return (
     <main>
+      <JsonLd data={buildItemListJsonLd(machines)} />
+      <JsonLd data={buildFaqJsonLd(faqData)} />
       <HeroSection />
       <BrandsStrip />
       <CatalogFilterProvider>

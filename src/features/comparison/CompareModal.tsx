@@ -88,6 +88,7 @@ export function CompareModal({ machines }: { machines: Machine[] }) {
                     </span>
                     <BuyLink
                       machine={m}
+                      placement="comparison"
                       className="mt-3.5 block h-11 rounded-xl bg-primary text-center font-inter text-sm leading-11 font-semibold text-white hover:bg-primary-dark"
                     >
                       Quero essa

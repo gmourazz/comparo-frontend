@@ -9,6 +9,9 @@ import { SpecsList } from "@/components/product/SpecsList";
 import { RecommendedProfiles } from "@/components/product/RecommendedProfiles";
 import { ProsConsSection } from "@/components/product/ProsConsSection";
 import { SimilarProductsGrid } from "@/components/product/SimilarProductsGrid";
+import { JsonLd } from "@/components/seo/JsonLd";
+import { buildBreadcrumbJsonLd, buildProductJsonLd } from "@/lib/structured-data";
+import { TrackMachineView } from "@/components/product/TrackMachineView";
 
 export async function generateMetadata({
   params,
@@ -18,11 +21,18 @@ export async function generateMetadata({
   const { slug } = await params;
   const machine = await getMachineBySlug(slug);
   if (!machine) return { title: "Maquininha não encontrada" };
+  const description =
+    machine.shortDescription ??
+    `Compare preço, taxas e recursos da ${machine.name} (${machine.brand}) no comparô.`;
   return {
     title: `${machine.name} — preço, taxas e recursos`,
-    description:
-      machine.shortDescription ??
-      `Compare preço, taxas e recursos da ${machine.name} (${machine.brand}) no comparô.`,
+    description,
+    alternates: { canonical: `/maquininhas/${machine.slug}` },
+    openGraph: {
+      title: machine.name,
+      description,
+      images: machine.image ? [machine.image] : undefined,
+    },
   };
 }
 
@@ -61,6 +71,9 @@ export default async function ProductDetailPage({
 
   return (
     <main className="mx-auto max-w-[1280px] px-6 py-8 pb-20">
+      <JsonLd data={buildProductJsonLd(machine)} />
+      <JsonLd data={buildBreadcrumbJsonLd(machine)} />
+      <TrackMachineView slug={machine.slug} brand={machine.brand} />
       <Breadcrumb machine={machine} />
 
       <div className="mt-6 grid grid-cols-[repeat(auto-fit,minmax(320px,1fr))] items-start gap-8">

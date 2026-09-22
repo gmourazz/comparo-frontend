@@ -1,5 +1,6 @@
 "use client";
 
+import { useEffect } from "react";
 import type { Machine } from "@/types/machine";
 import { quizQuestions } from "@/config/content/quiz-questions";
 import { useQuiz } from "./QuizProvider";
@@ -7,10 +8,21 @@ import { useCompare } from "@/features/comparison/CompareProvider";
 import { recommendMachines, reasonSentence } from "./recommend-machines";
 import { formatCurrency, formatInstallments } from "@/lib/formatters";
 import { BuyLink } from "@/components/ui/BuyLink";
+import { trackRecommendationView } from "@/features/tracking/events";
 
 export function QuizModal({ machines }: { machines: Machine[] }) {
   const quiz = useQuiz();
   const compare = useCompare();
+
+  const recommendations = quiz.done ? recommendMachines(quiz.answers, machines) : [];
+  const topPick = recommendations[0];
+  const altPicks = recommendations.slice(1, 3);
+
+  useEffect(() => {
+    if (quiz.done && topPick) trackRecommendationView(topPick.machine.slug);
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- only re-fire when the top pick itself changes
+  }, [quiz.done, topPick?.machine.slug]);
+
   if (!quiz.isOpen) return null;
 
   const question = quizQuestions[Math.min(quiz.stepIndex, quizQuestions.length - 1)];
@@ -18,10 +30,6 @@ export function QuizModal({ machines }: { machines: Machine[] }) {
     ((quiz.done ? quizQuestions.length : quiz.stepIndex) / quizQuestions.length) * 100,
   );
   const stepLabel = `Pergunta ${quiz.stepIndex + 1} de ${quizQuestions.length}`;
-
-  const recommendations = quiz.done ? recommendMachines(quiz.answers, machines) : [];
-  const topPick = recommendations[0];
-  const altPicks = recommendations.slice(1, 3);
 
   function addTopPicksToCompare() {
     const slugs = recommendations.slice(0, compare.max).map((r) => r.machine.slug);
@@ -166,6 +174,7 @@ export function QuizModal({ machines }: { machines: Machine[] }) {
               <div className="mt-5 flex flex-wrap gap-2.5">
                 <BuyLink
                   machine={topPick.machine}
+                  placement="quiz"
                   className="flex h-13 items-center rounded-xl bg-primary px-5.5 font-inter text-[15px] font-semibold text-white hover:bg-primary-dark"
                 >
                   Quero essa maquininha
@@ -200,6 +209,7 @@ export function QuizModal({ machines }: { machines: Machine[] }) {
                     <div className="mt-4.5 flex flex-col gap-2">
                       <BuyLink
                         machine={r.machine}
+                        placement="recommendation"
                         className="flex h-12 items-center justify-center rounded-xl bg-text font-inter text-[15px] font-semibold text-white hover:bg-[#2b3040]"
                       >
                         Quero essa

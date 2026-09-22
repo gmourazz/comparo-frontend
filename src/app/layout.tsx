@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Manrope, Inter } from "next/font/google";
 import "./globals.css";
 import { Providers } from "./providers";
+import { siteConfig } from "@/config/site";
 
 const manrope = Manrope({
   variable: "--next-font-manrope",
@@ -16,12 +17,15 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL(siteConfig.url),
   title: {
     default: "comparô — compare maquininhas de cartão",
     template: "%s | comparô",
   },
   description:
     "Comparador independente de maquininhas de cartão: preços, taxas e recursos da Mercado Pago Point e Ton lado a lado.",
+  alternates: { canonical: "/" },
+  robots: { index: true, follow: true },
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {

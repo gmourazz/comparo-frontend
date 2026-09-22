@@ -37,6 +37,7 @@ export function ProductPriceBox({ machine }: { machine: Machine }) {
 
       <BuyLink
         machine={machine}
+        placement="details"
         className="mt-5 flex h-14 w-full items-center justify-center rounded-xl bg-primary font-inter text-[17px] font-bold text-white shadow-[0_4px_12px_rgba(109,93,251,0.24)] hover:bg-primary-dark"
       >
         Comprar no site oficial

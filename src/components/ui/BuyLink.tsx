@@ -1,6 +1,11 @@
+"use client";
+
 import type { ReactNode } from "react";
 import type { Machine } from "@/types/machine";
 import { goHref } from "@/lib/provider-slug";
+import { trackAffiliateClick } from "@/features/tracking/events";
+
+export type CtaPlacement = "hero" | "machine_card" | "details" | "quiz" | "comparison" | "recommendation" | "footer";
 
 /**
  * Renders the buy CTA as a real link when the backend says an affiliate
@@ -9,10 +14,12 @@ import { goHref } from "@/lib/provider-slug";
  */
 export function BuyLink({
   machine,
+  placement,
   className = "",
   children,
 }: {
   machine: Machine;
+  placement: CtaPlacement;
   className?: string;
   children: ReactNode;
 }) {
@@ -30,7 +37,13 @@ export function BuyLink({
   }
 
   return (
-    <a href={goHref(machine)} target="_blank" rel="noopener noreferrer" className={className}>
+    <a
+      href={goHref(machine)}
+      target="_blank"
+      rel="noopener noreferrer"
+      onClick={() => trackAffiliateClick(machine.provider, machine.slug, placement)}
+      className={className}
+    >
       {children}
     </a>
   );
