@@ -1,0 +1,1348 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="anonymous" />
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@500;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+<style>
+  *{box-sizing:border-box}
+  body{margin:0;background:#F8F9FC;color:#171A21;font-family:Inter,system-ui,sans-serif;-webkit-font-smoothing:antialiased}
+  a{color:#5145CD;text-decoration:none}
+  a:hover{color:#171A21}
+  button{font-family:inherit}
+  input,select{font-family:inherit}
+  ::selection{background:#EEECFF}
+  @keyframes shimmer{0%{background-position:-420px 0}100%{background-position:420px 0}}
+  @keyframes fadeUp{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+  @keyframes sheetUp{from{transform:translateY(16px);opacity:0}to{transform:none;opacity:1}}
+  [data-focus]:focus-visible{outline:2px solid #6D5DFB;outline-offset:2px}
+</style>
+</helmet>
+
+<div style="width:100%;min-height:100vh;background:#F8F9FC;font-family:Inter,system-ui,sans-serif;color:#171A21;overflow-x:hidden">
+
+<header style="position:sticky;top:0;z-index:60;background:rgba(255,255,255,0.88);backdrop-filter:blur(12px);border-bottom:1px solid #E4E7EC;box-shadow:{{ headerShadow }}">
+  <div style="max-width:1280px;margin:0 auto;padding:0 24px;height:72px;display:flex;align-items:center;gap:24px">
+    <a href="#" onClick="{{ goHome }}" style="display:flex;align-items:center;gap:10px;text-decoration:none;flex:0 0 auto">
+      <span style="width:32px;height:32px;border-radius:10px;background:#6D5DFB;display:flex;align-items:center;justify-content:center;color:#fff;font:800 15px/1 Manrope,sans-serif">C</span>
+      <span style="font:800 20px/1 Manrope,sans-serif;color:#171A21;letter-spacing:-0.02em">comparô</span>
+    </a>
+    <nav style="display:flex;align-items:center;gap:4px;flex:1 1 auto;min-width:0;flex-wrap:wrap">
+      <a href="#catalogo" style="padding:8px 12px;border-radius:8px;font:500 15px/1 Inter,sans-serif;color:#667085">Maquininhas</a>
+      <a href="#" onClick="{{ openCompare }}" style="padding:8px 12px;border-radius:8px;font:500 15px/1 Inter,sans-serif;color:#667085">Comparar</a>
+      <a href="#como-escolher" style="padding:8px 12px;border-radius:8px;font:500 15px/1 Inter,sans-serif;color:#667085">Como escolher</a>
+      <a href="#taxas" style="padding:8px 12px;border-radius:8px;font:500 15px/1 Inter,sans-serif;color:#667085">Taxas</a>
+      <a href="#faq" style="padding:8px 12px;border-radius:8px;font:500 15px/1 Inter,sans-serif;color:#667085">FAQ</a>
+    </nav>
+    <div style="display:flex;align-items:center;gap:10px;flex:0 0 auto">
+      <button data-focus="1" onClick="{{ openCompare }}" style="height:44px;padding:0 16px;border-radius:12px;background:#fff;border:1px solid #E4E7EC;color:#171A21;font:600 15px/1 Inter,sans-serif;cursor:pointer;display:flex;align-items:center;gap:8px" style-hover="border-color:#D0D5DD;background:#F8F9FC">
+        Comparar
+        <span style="min-width:20px;height:20px;padding:0 6px;border-radius:999px;background:#EEECFF;color:#5145CD;font:700 12px/20px Inter,sans-serif;text-align:center">{{ compareCount }}</span>
+      </button>
+      <button data-focus="1" onClick="{{ startQuiz }}" style="height:44px;padding:0 18px;border-radius:12px;background:#6D5DFB;border:1px solid #6D5DFB;color:#fff;font:600 15px/1 Inter,sans-serif;cursor:pointer;box-shadow:0 1px 2px rgba(16,24,40,0.05)" style-hover="background:#5145CD;border-color:#5145CD">Descobrir minha maquininha</button>
+    </div>
+  </div>
+</header>
+
+<sc-if value="{{ isHome }}" hint-placeholder-val="{{ true }}">
+<main>
+
+  <section style="position:relative;background:#fff;border-bottom:1px solid #E4E7EC;overflow:hidden">
+    <div style="position:absolute;inset:-20% -10% auto -10%;height:560px;background:radial-gradient(48% 60% at 72% 30%,#EEECFF 0%,rgba(238,236,255,0) 72%);pointer-events:none"></div>
+    <div style="position:relative;max-width:1280px;margin:0 auto;padding:clamp(48px,7vw,96px) 24px clamp(56px,7vw,104px);display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:clamp(32px,5vw,64px);align-items:center">
+      <div style="min-width:0">
+        <span style="display:inline-flex;align-items:center;gap:8px;height:32px;padding:0 12px;border-radius:999px;background:#EEECFF;color:#5145CD;font:600 13px/1 Inter,sans-serif">
+          <span style="width:6px;height:6px;border-radius:999px;background:#6D5DFB"></span>
+          Compare antes de escolher
+        </span>
+        <h1 style="margin:20px 0 0;font:700 clamp(36px,4.6vw,56px)/1.1 Manrope,sans-serif;letter-spacing:-0.025em;color:#171A21;text-wrap:balance">Encontre a maquininha ideal para o seu negócio</h1>
+        <p style="margin:20px 0 0;max-width:560px;font:400 clamp(16px,1.3vw,18px)/1.6 Inter,sans-serif;color:#667085;text-wrap:pretty">Compare modelos, preços, taxas e recursos e descubra qual opção faz mais sentido para o seu jeito de vender.</p>
+        <div style="display:flex;flex-wrap:wrap;gap:12px;margin-top:32px">
+          <button data-focus="1" onClick="{{ startQuiz }}" style="height:52px;padding:0 24px;border-radius:12px;background:#6D5DFB;border:1px solid #6D5DFB;color:#fff;font:600 16px/1 Inter,sans-serif;cursor:pointer;box-shadow:0 4px 12px rgba(109,93,251,0.24)" style-hover="background:#5145CD;border-color:#5145CD">Descobrir a ideal para mim</button>
+          <a href="#catalogo" style="height:52px;padding:0 24px;border-radius:12px;background:#fff;border:1px solid #E4E7EC;color:#171A21;font:600 16px/52px Inter,sans-serif;display:inline-block" style-hover="border-color:#D0D5DD;background:#F8F9FC">Ver maquininhas</a>
+        </div>
+        <ul style="list-style:none;margin:32px 0 0;padding:0;display:flex;flex-wrap:wrap;gap:12px 24px">
+          <li style="display:flex;align-items:center;gap:8px;font:500 14px/1.4 Inter,sans-serif;color:#667085"><span style="width:18px;height:18px;border-radius:999px;background:#E6F5EE;color:#22A06B;font:700 11px/18px Inter,sans-serif;text-align:center">✓</span>Compare gratuitamente</li>
+          <li style="display:flex;align-items:center;gap:8px;font:500 14px/1.4 Inter,sans-serif;color:#667085"><span style="width:18px;height:18px;border-radius:999px;background:#E6F5EE;color:#22A06B;font:700 11px/18px Inter,sans-serif;text-align:center">✓</span>Veja taxas e recursos</li>
+          <li style="display:flex;align-items:center;gap:8px;font:500 14px/1.4 Inter,sans-serif;color:#667085"><span style="width:18px;height:18px;border-radius:999px;background:#E6F5EE;color:#22A06B;font:700 11px/18px Inter,sans-serif;text-align:center">✓</span>Compra no site oficial</li>
+        </ul>
+      </div>
+
+      <div style="position:relative;min-width:0">
+        <div style="position:relative;border-radius:24px;background:#F8F9FC;border:1px solid #E4E7EC;padding:24px;box-shadow:0 12px 32px rgba(16,24,40,0.08)">
+          <div style="display:grid;grid-template-columns:1.25fr 1fr;grid-template-rows:auto auto;gap:16px">
+            <div style="grid-row:span 2;aspect-ratio:3/4;border-radius:20px;background:#fff;border:1px dashed #D0D5DD;background-image:repeating-linear-gradient(135deg,rgba(109,93,251,0.06) 0 10px,transparent 10px 20px);display:flex;align-items:flex-end;justify-content:center;padding:16px">
+              <span style="font:500 11px/1.5 ui-monospace,SFMono-Regular,Menlo,monospace;color:#98A2B3;text-align:center;letter-spacing:0.04em">[ IMAGEM OFICIAL ]<br />maquininha smart</span>
+            </div>
+            <div style="aspect-ratio:1/1;border-radius:16px;background:#fff;border:1px dashed #D0D5DD;background-image:repeating-linear-gradient(135deg,rgba(109,93,251,0.06) 0 10px,transparent 10px 20px);display:flex;align-items:flex-end;justify-content:center;padding:12px">
+              <span style="font:500 10px/1.5 ui-monospace,SFMono-Regular,Menlo,monospace;color:#98A2B3;text-align:center;letter-spacing:0.04em">[ IMAGEM ]<br />modelo mini</span>
+            </div>
+            <div style="aspect-ratio:1/1;border-radius:16px;background:#fff;border:1px dashed #D0D5DD;background-image:repeating-linear-gradient(135deg,rgba(109,93,251,0.06) 0 10px,transparent 10px 20px);display:flex;align-items:flex-end;justify-content:center;padding:12px">
+              <span style="font:500 10px/1.5 ui-monospace,SFMono-Regular,Menlo,monospace;color:#98A2B3;text-align:center;letter-spacing:0.04em">[ IMAGEM ]<br />com impressora</span>
+            </div>
+          </div>
+          <div style="position:absolute;top:-14px;left:-16px;height:36px;padding:0 14px;border-radius:999px;background:#fff;border:1px solid #E4E7EC;box-shadow:0 4px 12px rgba(16,24,40,0.08);display:flex;align-items:center;gap:8px;font:600 13px/1 Inter,sans-serif;color:#171A21"><span style="width:6px;height:6px;border-radius:999px;background:#22A06B"></span>Pix</div>
+          <div style="position:absolute;top:38%;right:-18px;height:36px;padding:0 14px;border-radius:999px;background:#fff;border:1px solid #E4E7EC;box-shadow:0 4px 12px rgba(16,24,40,0.08);display:flex;align-items:center;gap:8px;font:600 13px/1 Inter,sans-serif;color:#171A21"><span style="width:6px;height:6px;border-radius:999px;background:#6D5DFB"></span>Com NFC</div>
+          <div style="position:absolute;bottom:-14px;left:22%;height:36px;padding:0 14px;border-radius:999px;background:#fff;border:1px solid #E4E7EC;box-shadow:0 4px 12px rgba(16,24,40,0.08);display:flex;align-items:center;gap:8px;font:600 13px/1 Inter,sans-serif;color:#171A21"><span style="width:6px;height:6px;border-radius:999px;background:#FFB547"></span>Imprime comprovante</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section style="background:#fff;border-bottom:1px solid #E4E7EC">
+    <div style="max-width:1280px;margin:0 auto;padding:24px;display:flex;flex-wrap:wrap;align-items:center;gap:16px 32px">
+      <span style="font:500 14px/1 Inter,sans-serif;color:#98A2B3">Compare opções de</span>
+      <div style="display:flex;flex-wrap:wrap;align-items:center;gap:12px">
+        <span style="height:36px;padding:0 14px;border-radius:10px;border:1px solid #E4E7EC;background:#fff;display:flex;align-items:center;gap:8px;font:600 14px/1 Inter,sans-serif;color:#344054"><span style="width:8px;height:8px;border-radius:2px;background:#00A9E0"></span>Mercado Pago / Point</span>
+        <span style="height:36px;padding:0 14px;border-radius:10px;border:1px solid #E4E7EC;background:#fff;display:flex;align-items:center;gap:8px;font:600 14px/1 Inter,sans-serif;color:#344054"><span style="width:8px;height:8px;border-radius:2px;background:#00E38C"></span>Ton</span>
+        <span style="height:36px;padding:0 14px;border-radius:10px;border:1px dashed #D0D5DD;display:flex;align-items:center;font:500 14px/1 Inter,sans-serif;color:#98A2B3">Mais marcas em breve</span>
+      </div>
+      <span style="font:400 12px/1.5 Inter,sans-serif;color:#98A2B3;margin-left:auto;max-width:320px">Site independente. Não somos parceiros oficiais das marcas comparadas.</span>
+    </div>
+  </section>
+
+  <section style="max-width:1280px;margin:0 auto;padding:clamp(40px,5vw,64px) 24px 0">
+    <div style="background:#fff;border:1px solid #E4E7EC;border-radius:20px;padding:24px;box-shadow:0 4px 12px rgba(16,24,40,0.06)">
+      <div style="display:flex;flex-wrap:wrap;gap:16px;align-items:center">
+        <div style="flex:1 1 320px;min-width:0;position:relative">
+          <span style="position:absolute;left:16px;top:50%;transform:translateY(-50%);width:16px;height:16px;border:2px solid #98A2B3;border-radius:999px"></span>
+          <input data-focus="1" value="{{ query }}" onChange="{{ onQuery }}" placeholder="Qual tipo de maquininha você procura?" style="width:100%;height:52px;padding:0 16px 0 44px;border-radius:12px;border:1px solid #D0D5DD;background:#fff;font:400 16px/1 Inter,sans-serif;color:#171A21" style-focus="border-color:#6D5DFB;box-shadow:0 0 0 4px rgba(109,93,251,0.14);outline:none" />
+        </div>
+        <a href="#catalogo" style="height:52px;padding:0 22px;border-radius:12px;background:#171A21;color:#fff;font:600 16px/52px Inter,sans-serif" style-hover="background:#2b3040">Buscar</a>
+      </div>
+      <div style="display:flex;flex-wrap:wrap;gap:8px;margin-top:16px">
+        <sc-for list="{{ quickChips }}" as="c" hint-placeholder-count="6">
+          <button data-focus="1" onClick="{{ c.onClick }}" style="height:38px;padding:0 14px;border-radius:999px;cursor:pointer;font:600 14px/1 Inter,sans-serif;background:{{ c.bg }};color:{{ c.fg }};border:1px solid {{ c.bd }}">{{ c.label }}</button>
+        </sc-for>
+      </div>
+    </div>
+  </section>
+
+  <section id="catalogo" style="max-width:1280px;margin:0 auto;padding:clamp(48px,6vw,80px) 24px 0">
+    <div style="display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:16px">
+      <div style="max-width:620px">
+        <h2 style="margin:0;font:700 clamp(28px,3vw,36px)/1.2 Manrope,sans-serif;letter-spacing:-0.02em">Compare as maquininhas</h2>
+        <p style="margin:12px 0 0;font:400 17px/1.6 Inter,sans-serif;color:#667085">Veja preços, recursos e condições em um só lugar.</p>
+      </div>
+      <div style="display:flex;align-items:center;gap:10px">
+        <span style="display:inline-flex;align-items:center;gap:8px;height:32px;padding:0 12px;border-radius:999px;background:#F2F4F8;border:1px solid #E4E7EC;font:500 13px/1 Inter,sans-serif;color:#667085" title="Preços e condições podem mudar. Confirme as informações no site oficial.">
+          <span style="width:6px;height:6px;border-radius:999px;background:#22A06B"></span>Dados atualizados em 20/09/2026
+        </span>
+        <button data-focus="1" onClick="{{ reload }}" style="height:32px;padding:0 12px;border-radius:999px;background:#fff;border:1px solid #E4E7EC;color:#667085;font:500 13px/1 Inter,sans-serif;cursor:pointer" style-hover="border-color:#D0D5DD;color:#171A21">Recarregar</button>
+      </div>
+    </div>
+
+    <div style="margin-top:24px;background:#fff;border:1px solid #E4E7EC;border-radius:16px;padding:16px 20px;display:flex;flex-wrap:wrap;gap:20px 28px;align-items:center">
+      <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap">
+        <span style="font:600 13px/1 Inter,sans-serif;color:#98A2B3;text-transform:uppercase;letter-spacing:0.06em">Marca</span>
+        <div style="display:flex;background:#F2F4F8;border-radius:10px;padding:3px;gap:2px">
+          <sc-for list="{{ brandTabs }}" as="b" hint-placeholder-count="3">
+            <button data-focus="1" onClick="{{ b.onClick }}" style="height:34px;padding:0 14px;border-radius:8px;border:none;cursor:pointer;font:600 14px/1 Inter,sans-serif;background:{{ b.bg }};color:{{ b.fg }};box-shadow:{{ b.sh }}">{{ b.label }}</button>
+          </sc-for>
+        </div>
+      </div>
+      <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap">
+        <span style="font:600 13px/1 Inter,sans-serif;color:#98A2B3;text-transform:uppercase;letter-spacing:0.06em">Recursos</span>
+        <div style="display:flex;flex-wrap:wrap;gap:8px">
+          <sc-for list="{{ featChips }}" as="f" hint-placeholder-count="5">
+            <button data-focus="1" onClick="{{ f.onClick }}" style="height:34px;padding:0 12px;border-radius:999px;cursor:pointer;font:500 14px/1 Inter,sans-serif;background:{{ f.bg }};color:{{ f.fg }};border:1px solid {{ f.bd }}">{{ f.label }}</button>
+          </sc-for>
+        </div>
+      </div>
+      <div style="display:flex;align-items:center;gap:10px;margin-left:auto">
+        <button data-focus="1" onClick="{{ openFilters }}" style="height:40px;padding:0 14px;border-radius:10px;background:#fff;border:1px solid #E4E7EC;font:600 14px/1 Inter,sans-serif;color:#171A21;cursor:pointer;display:flex;align-items:center;gap:8px" style-hover="border-color:#D0D5DD;background:#F8F9FC">
+          Todos os filtros
+          <span style="min-width:18px;height:18px;padding:0 5px;border-radius:999px;background:#EEECFF;color:#5145CD;font:700 11px/18px Inter,sans-serif;text-align:center">{{ activeFilterCount }}</span>
+        </button>
+        <label style="display:flex;align-items:center;gap:8px;font:500 14px/1 Inter,sans-serif;color:#667085">
+          Ordenar
+          <select data-focus="1" value="{{ sort }}" onChange="{{ onSort }}" style="height:40px;padding:0 12px;border-radius:10px;border:1px solid #D0D5DD;background:#fff;font:500 14px/1 Inter,sans-serif;color:#171A21;cursor:pointer" style-focus="border-color:#6D5DFB;outline:none;box-shadow:0 0 0 4px rgba(109,93,251,0.14)">
+            <option value="Recomendadas">Recomendadas</option>
+            <option value="Menor preço">Menor preço</option>
+            <option value="Mais recursos">Mais recursos</option>
+          </select>
+        </label>
+      </div>
+    </div>
+
+    <div style="display:flex;flex-wrap:wrap;gap:8px;margin-top:16px;align-items:center">
+      <span style="font:600 13px/1 Inter,sans-serif;color:#98A2B3;text-transform:uppercase;letter-spacing:0.06em;margin-right:4px">Perfil</span>
+      <sc-for list="{{ profileChips }}" as="p" hint-placeholder-count="6">
+        <button data-focus="1" onClick="{{ p.onClick }}" style="height:34px;padding:0 12px;border-radius:999px;cursor:pointer;font:500 14px/1 Inter,sans-serif;background:{{ p.bg }};color:{{ p.fg }};border:1px solid {{ p.bd }}">{{ p.label }}</button>
+      </sc-for>
+    </div>
+
+    <p style="margin:20px 0 0;font:500 14px/1 Inter,sans-serif;color:#667085">{{ resultLabel }}</p>
+
+    <sc-if value="{{ loading }}" hint-placeholder-val="{{ false }}">
+      <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:24px;margin-top:20px">
+        <sc-for list="{{ skeletons }}" as="s" hint-placeholder-count="3">
+          <div style="background:#fff;border:1px solid #E4E7EC;border-radius:20px;padding:20px">
+            <div style="height:20px;width:120px;border-radius:6px;background:linear-gradient(90deg,#F2F4F8 0%,#E9ECF2 50%,#F2F4F8 100%);background-size:420px 100%;animation:shimmer 1.4s linear infinite"></div>
+            <div style="margin-top:16px;aspect-ratio:4/3;border-radius:16px;background:linear-gradient(90deg,#F2F4F8 0%,#E9ECF2 50%,#F2F4F8 100%);background-size:420px 100%;animation:shimmer 1.4s linear infinite"></div>
+            <div style="margin-top:20px;height:24px;width:70%;border-radius:6px;background:linear-gradient(90deg,#F2F4F8 0%,#E9ECF2 50%,#F2F4F8 100%);background-size:420px 100%;animation:shimmer 1.4s linear infinite"></div>
+            <div style="margin-top:10px;height:16px;width:90%;border-radius:6px;background:#F2F4F8"></div>
+            <div style="margin-top:24px;height:32px;width:50%;border-radius:8px;background:linear-gradient(90deg,#F2F4F8 0%,#E9ECF2 50%,#F2F4F8 100%);background-size:420px 100%;animation:shimmer 1.4s linear infinite"></div>
+            <div style="margin-top:20px;height:48px;border-radius:12px;background:#F2F4F8"></div>
+          </div>
+        </sc-for>
+      </div>
+    </sc-if>
+
+    <sc-if value="{{ isEmpty }}" hint-placeholder-val="{{ false }}">
+      <div style="margin-top:20px;background:#fff;border:1px dashed #D0D5DD;border-radius:20px;padding:64px 24px;text-align:center">
+        <div style="width:64px;height:64px;margin:0 auto;border-radius:16px;background:#F2F4F8;border:1px solid #E4E7EC;display:flex;align-items:center;justify-content:center">
+          <span style="width:22px;height:22px;border:2px solid #98A2B3;border-radius:999px"></span>
+        </div>
+        <h3 style="margin:20px 0 0;font:700 22px/1.3 Manrope,sans-serif">Nenhuma maquininha corresponde a esses filtros.</h3>
+        <p style="margin:10px auto 0;max-width:420px;font:400 15px/1.6 Inter,sans-serif;color:#667085">Tente remover um recurso ou voltar para todas as marcas.</p>
+        <button data-focus="1" onClick="{{ clearFilters }}" style="margin-top:24px;height:48px;padding:0 22px;border-radius:12px;background:#6D5DFB;border:none;color:#fff;font:600 15px/1 Inter,sans-serif;cursor:pointer" style-hover="background:#5145CD">Limpar filtros</button>
+      </div>
+    </sc-if>
+
+    <sc-if value="{{ showGrid }}" hint-placeholder-val="{{ true }}">
+      <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:24px;margin-top:20px">
+        <sc-for list="{{ list }}" as="p" hint-placeholder-count="6">
+          <article style="display:flex;flex-direction:column;background:#fff;border-radius:20px;border:1px solid {{ p.cardBorder }};box-shadow:{{ p.cardShadow }};transition:transform 200ms ease,box-shadow 200ms ease" style-hover="transform:translateY(-3px);box-shadow:0 12px 32px rgba(16,24,40,0.10)">
+            <div style="padding:20px 20px 0;display:flex;align-items:flex-start;justify-content:space-between;gap:12px">
+              <div style="display:flex;flex-wrap:wrap;gap:6px">
+                <span style="height:26px;padding:0 10px;border-radius:8px;display:flex;align-items:center;gap:6px;font:600 12px/1 Inter,sans-serif;color:#344054;background:#F2F4F8;border:1px solid #E4E7EC"><span style="width:7px;height:7px;border-radius:2px;background:{{ p.brandColor }}"></span>{{ p.brand }}</span>
+                <span style="height:26px;padding:0 10px;border-radius:8px;display:flex;align-items:center;font:600 12px/1 Inter,sans-serif;color:#5145CD;background:#EEECFF">{{ p.badge }}</span>
+              </div>
+              <sc-if value="{{ showDiscount }}" hint-placeholder-val="{{ true }}">
+                <span style="height:26px;padding:0 8px;border-radius:8px;display:flex;align-items:center;font:700 12px/1 Inter,sans-serif;color:#fff;background:#22A06B">-{{ p.discount }}%</span>
+              </sc-if>
+            </div>
+            <div style="padding:16px 20px 0">
+              <div style="position:relative;aspect-ratio:4/3;border-radius:16px;background:#F8F9FC;border:1px dashed #D0D5DD;background-image:repeating-linear-gradient(135deg,rgba(109,93,251,0.06) 0 10px,transparent 10px 20px);display:flex;align-items:flex-end;justify-content:center;padding:14px">
+                <span style="font:500 10px/1.5 ui-monospace,SFMono-Regular,Menlo,monospace;color:#98A2B3;text-align:center;letter-spacing:0.04em">[ IMAGEM OFICIAL ]<br />{{ p.model }}</span>
+              </div>
+            </div>
+            <div style="padding:20px;display:flex;flex-direction:column;flex:1 1 auto;min-height:0">
+              <h3 style="margin:0;font:700 22px/1.25 Manrope,sans-serif;letter-spacing:-0.01em">{{ p.model }}</h3>
+              <p style="margin:8px 0 0;font:400 14px/1.5 Inter,sans-serif;color:#667085;text-wrap:pretty">{{ p.tagline }}</p>
+              <ul style="list-style:none;margin:16px 0 0;padding:0;display:grid;grid-template-columns:1fr 1fr;gap:8px">
+                <sc-for list="{{ p.feats }}" as="f" hint-placeholder-count="4">
+                  <li style="display:flex;align-items:center;gap:6px;font:500 13px/1.3 Inter,sans-serif;color:#344054"><span style="flex:0 0 auto;width:16px;height:16px;border-radius:999px;background:#EEECFF;color:#5145CD;font:700 10px/16px Inter,sans-serif;text-align:center">✓</span>{{ f }}</li>
+                </sc-for>
+              </ul>
+              <div style="margin-top:20px;padding-top:16px;border-top:1px solid #E4E7EC">
+                <div style="display:flex;align-items:baseline;gap:8px">
+                  <span style="font:400 14px/1 Inter,sans-serif;color:#98A2B3;text-decoration:line-through">{{ p.fromLabel }}</span>
+                </div>
+                <div style="display:flex;align-items:baseline;gap:8px;margin-top:4px">
+                  <span style="font:700 30px/1 Manrope,sans-serif;letter-spacing:-0.02em">{{ p.priceLabel }}</span>
+                  <span style="font:500 13px/1 Inter,sans-serif;color:#667085">à vista</span>
+                </div>
+                <p style="margin:6px 0 0;font:500 13px/1 Inter,sans-serif;color:#667085">ou {{ p.inst }}</p>
+              </div>
+              <sc-if value="{{ showFees }}" hint-placeholder-val="{{ true }}">
+                <div style="margin-top:16px;display:grid;grid-template-columns:repeat(3,1fr);gap:8px;background:#F8F9FC;border:1px solid #E4E7EC;border-radius:12px;padding:12px">
+                  <div>
+                    <span style="display:block;font:600 11px/1 Inter,sans-serif;color:#98A2B3;text-transform:uppercase;letter-spacing:0.04em">Pix</span>
+                    <span style="display:block;margin-top:5px;font:700 14px/1 Inter,sans-serif;color:#171A21">{{ p.pixLabel }}</span>
+                  </div>
+                  <div style="border-left:1px solid #E4E7EC;padding-left:8px">
+                    <span style="display:block;font:600 11px/1 Inter,sans-serif;color:#98A2B3;text-transform:uppercase;letter-spacing:0.04em">Débito</span>
+                    <span style="display:block;margin-top:5px;font:700 14px/1 Inter,sans-serif;color:#171A21">{{ p.debLabel }}</span>
+                  </div>
+                  <div style="border-left:1px solid #E4E7EC;padding-left:8px">
+                    <span style="display:block;font:600 11px/1 Inter,sans-serif;color:#98A2B3;text-transform:uppercase;letter-spacing:0.04em">Crédito</span>
+                    <span style="display:block;margin-top:5px;font:700 14px/1 Inter,sans-serif;color:#171A21">{{ p.credLabel }}</span>
+                  </div>
+                </div>
+              </sc-if>
+              <div style="margin-top:auto;padding-top:20px;display:flex;flex-direction:column;gap:10px">
+                <button data-focus="1" onClick="{{ p.onBuy }}" style="height:48px;border-radius:12px;background:#6D5DFB;border:none;color:#fff;font:600 15px/1 Inter,sans-serif;cursor:pointer" style-hover="background:#5145CD">Quero essa maquininha</button>
+                <button data-focus="1" onClick="{{ p.onOpen }}" style="height:44px;border-radius:12px;background:#fff;border:1px solid #E4E7EC;color:#171A21;font:600 15px/1 Inter,sans-serif;cursor:pointer" style-hover="border-color:#D0D5DD;background:#F8F9FC">Ver detalhes</button>
+                <label style="display:flex;align-items:center;gap:10px;margin-top:2px;cursor:pointer;font:500 14px/1 Inter,sans-serif;color:#667085">
+                  <span style="width:20px;height:20px;border-radius:6px;display:flex;align-items:center;justify-content:center;font:700 12px/1 Inter,sans-serif;background:{{ p.checkBg }};border:1.5px solid {{ p.checkBd }};color:#fff">{{ p.checkMark }}</span>
+                  <input data-focus="1" type="checkbox" checked="{{ p.selected }}" onChange="{{ p.onCompare }}" style="position:absolute;opacity:0;width:1px;height:1px" />
+                  Comparar
+                </label>
+              </div>
+            </div>
+          </article>
+        </sc-for>
+      </div>
+    </sc-if>
+
+    <div style="margin-top:32px;background:#fff;border:1px solid #E4E7EC;border-radius:16px;padding:20px 24px;display:flex;flex-wrap:wrap;gap:12px;align-items:center">
+      <span style="width:32px;height:32px;border-radius:10px;background:#EEECFF;color:#5145CD;display:flex;align-items:center;justify-content:center;font:700 14px/1 Inter,sans-serif">i</span>
+      <p style="margin:0;flex:1 1 320px;font:400 14px/1.6 Inter,sans-serif;color:#667085;text-wrap:pretty"><strong style="color:#171A21;font-weight:600">Transparência.</strong> Alguns links desta página são links de indicação. Podemos receber uma recompensa quando uma contratação é realizada através deles, sem custo adicional para você.</p>
+      <a href="#" style="font:600 14px/1 Inter,sans-serif;color:#5145CD">Saiba mais</a>
+    </div>
+  </section>
+
+  <section style="max-width:1280px;margin:0 auto;padding:clamp(48px,6vw,80px) 24px 0">
+    <div style="border-radius:24px;background:#5145CD;padding:clamp(32px,5vw,56px);display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:40px;align-items:center;overflow:hidden;position:relative">
+      <div style="position:absolute;inset:auto -10% -60% 60%;height:420px;background:radial-gradient(50% 50% at 50% 50%,rgba(109,93,251,0.9) 0%,rgba(81,69,205,0) 70%);pointer-events:none"></div>
+      <div style="position:relative;min-width:0">
+        <h2 style="margin:0;font:700 clamp(28px,3.2vw,40px)/1.15 Manrope,sans-serif;color:#fff;letter-spacing:-0.02em">Não sabe qual escolher?</h2>
+        <p style="margin:16px 0 0;max-width:460px;font:400 17px/1.6 Inter,sans-serif;color:#E0DDFA;text-wrap:pretty">Responda algumas perguntas e encontre modelos que combinam com seu negócio.</p>
+        <div style="display:flex;flex-wrap:wrap;align-items:center;gap:16px;margin-top:28px">
+          <button data-focus="1" onClick="{{ startQuiz }}" style="height:52px;padding:0 24px;border-radius:12px;background:#fff;border:none;color:#5145CD;font:700 16px/1 Inter,sans-serif;cursor:pointer" style-hover="background:#EEECFF">Descobrir minha maquininha</button>
+          <span style="font:500 14px/1 Inter,sans-serif;color:#C7C1F5">Leva menos de 1 minuto</span>
+        </div>
+      </div>
+      <div style="position:relative;background:#fff;border-radius:20px;padding:24px;box-shadow:0 12px 32px rgba(16,24,40,0.18)">
+        <div style="display:flex;align-items:center;justify-content:space-between;font:600 13px/1 Inter,sans-serif;color:#667085">
+          <span>Pergunta 2 de 5</span>
+          <span style="color:#98A2B3">40%</span>
+        </div>
+        <div style="margin-top:10px;height:6px;border-radius:999px;background:#F2F4F8;overflow:hidden">
+          <div style="width:40%;height:100%;border-radius:999px;background:#6D5DFB"></div>
+        </div>
+        <h3 style="margin:20px 0 0;font:700 20px/1.3 Manrope,sans-serif">Você precisa imprimir comprovante?</h3>
+        <div style="display:flex;flex-direction:column;gap:10px;margin-top:16px">
+          <div style="height:52px;border-radius:12px;border:1.5px solid #6D5DFB;background:#EEECFF;display:flex;align-items:center;padding:0 16px;font:600 15px/1 Inter,sans-serif;color:#5145CD">Sim</div>
+          <div style="height:52px;border-radius:12px;border:1px solid #E4E7EC;display:flex;align-items:center;padding:0 16px;font:500 15px/1 Inter,sans-serif;color:#344054">Não</div>
+          <div style="height:52px;border-radius:12px;border:1px solid #E4E7EC;display:flex;align-items:center;padding:0 16px;font:500 15px/1 Inter,sans-serif;color:#344054">Tanto faz</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section style="max-width:1280px;margin:0 auto;padding:clamp(48px,6vw,80px) 24px 0">
+    <div style="max-width:620px">
+      <h2 style="margin:0;font:700 clamp(28px,3vw,36px)/1.2 Manrope,sans-serif;letter-spacing:-0.02em">Encontre por tipo de negócio</h2>
+      <p style="margin:12px 0 0;font:400 17px/1.6 Inter,sans-serif;color:#667085">Escolha o perfil mais parecido com o seu e veja modelos compatíveis.</p>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:16px;margin-top:32px">
+      <sc-for list="{{ segments }}" as="s" hint-placeholder-count="6">
+        <button data-focus="1" onClick="{{ s.onClick }}" style="text-align:left;cursor:pointer;background:#fff;border:1px solid #E4E7EC;border-radius:16px;padding:20px;transition:transform 200ms ease,box-shadow 200ms ease,border-color 200ms ease" style-hover="transform:translateY(-3px);box-shadow:0 12px 32px rgba(16,24,40,0.10);border-color:#D0D5DD">
+          <span style="width:40px;height:40px;border-radius:12px;background:#EEECFF;color:#5145CD;display:flex;align-items:center;justify-content:center;font:600 13px/1 ui-monospace,SFMono-Regular,Menlo,monospace">{{ s.code }}</span>
+          <span style="display:block;margin-top:16px;font:700 18px/1.3 Manrope,sans-serif;color:#171A21">{{ s.title }}</span>
+          <span style="display:block;margin-top:6px;font:400 14px/1.5 Inter,sans-serif;color:#667085">{{ s.desc }}</span>
+          <span style="display:block;margin-top:14px;font:600 14px/1 Inter,sans-serif;color:#5145CD">Ver modelos →</span>
+        </button>
+      </sc-for>
+    </div>
+  </section>
+
+  <section id="como-escolher" style="max-width:1280px;margin:0 auto;padding:clamp(48px,6vw,80px) 24px 0">
+    <div style="background:#fff;border:1px solid #E4E7EC;border-radius:24px;padding:clamp(28px,4vw,48px)">
+      <div style="max-width:620px">
+        <span style="font:600 13px/1 Inter,sans-serif;color:#5145CD;text-transform:uppercase;letter-spacing:0.08em">Como escolher</span>
+        <h2 style="margin:14px 0 0;font:700 clamp(28px,3vw,36px)/1.2 Manrope,sans-serif;letter-spacing:-0.02em">O que comparar antes de escolher?</h2>
+      </div>
+      <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:24px;margin-top:36px">
+        <sc-for list="{{ criteria }}" as="c" hint-placeholder-count="5">
+          <div>
+            <span style="display:flex;width:36px;height:36px;border-radius:10px;background:#F2F4F8;border:1px solid #E4E7EC;align-items:center;justify-content:center;font:600 13px/1 ui-monospace,SFMono-Regular,Menlo,monospace;color:#667085">{{ c.n }}</span>
+            <h3 style="margin:16px 0 0;font:600 18px/1.3 Manrope,sans-serif">{{ c.title }}</h3>
+            <p style="margin:8px 0 0;font:400 14px/1.6 Inter,sans-serif;color:#667085;text-wrap:pretty">{{ c.desc }}</p>
+          </div>
+        </sc-for>
+      </div>
+    </div>
+  </section>
+
+  <section id="taxas" style="max-width:1280px;margin:0 auto;padding:clamp(48px,6vw,80px) 24px 0">
+    <div style="display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:16px">
+      <div style="max-width:620px">
+        <h2 style="margin:0;font:700 clamp(28px,3vw,36px)/1.2 Manrope,sans-serif;letter-spacing:-0.02em">Entenda as taxas</h2>
+        <p style="margin:12px 0 0;font:400 17px/1.6 Inter,sans-serif;color:#667085">Quanto sai de cada venda, em valores simples de entender.</p>
+      </div>
+      <div style="display:flex;background:#fff;border:1px solid #E4E7EC;border-radius:12px;padding:4px;gap:2px">
+        <sc-for list="{{ feeTabs }}" as="t" hint-placeholder-count="4">
+          <button data-focus="1" onClick="{{ t.onClick }}" style="height:38px;padding:0 16px;border-radius:8px;border:none;cursor:pointer;font:600 14px/1 Inter,sans-serif;background:{{ t.bg }};color:{{ t.fg }}">{{ t.label }}</button>
+        </sc-for>
+      </div>
+    </div>
+
+    <div style="margin-top:24px;display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:24px">
+      <div style="background:#fff;border:1px solid #E4E7EC;border-radius:20px;padding:28px">
+        <span style="font:600 13px/1 Inter,sans-serif;color:#98A2B3;text-transform:uppercase;letter-spacing:0.06em">Exemplo</span>
+        <h3 style="margin:12px 0 0;font:700 22px/1.3 Manrope,sans-serif">{{ feeExampleTitle }}</h3>
+        <div style="margin-top:24px;display:flex;flex-direction:column;gap:14px">
+          <div>
+            <div style="display:flex;justify-content:space-between;font:500 14px/1 Inter,sans-serif;color:#667085"><span>Venda</span><span style="color:#171A21;font-weight:600">R$ 100,00</span></div>
+            <div style="margin-top:8px;height:12px;border-radius:999px;background:#EEECFF"></div>
+          </div>
+          <div>
+            <div style="display:flex;justify-content:space-between;font:500 14px/1 Inter,sans-serif;color:#667085"><span>Taxa média</span><span style="color:#171A21;font-weight:600">{{ feeAvgLabel }}</span></div>
+            <div style="margin-top:8px;height:12px;border-radius:999px;background:#F2F4F8;overflow:hidden">
+              <div style="height:100%;border-radius:999px;background:#FFB547;width:{{ feeBarWidth }}"></div>
+            </div>
+          </div>
+          <div style="margin-top:6px;padding-top:16px;border-top:1px solid #E4E7EC;display:flex;justify-content:space-between;align-items:baseline">
+            <span style="font:500 15px/1 Inter,sans-serif;color:#344054">Você recebe cerca de</span>
+            <span style="font:700 26px/1 Manrope,sans-serif;color:#22A06B">{{ feeNetLabel }}</span>
+          </div>
+        </div>
+        <p style="margin:20px 0 0;font:400 13px/1.6 Inter,sans-serif;color:#98A2B3">{{ feeNote }}</p>
+      </div>
+      <div style="background:#fff;border:1px solid #E4E7EC;border-radius:20px;padding:8px 0 0;overflow:hidden">
+        <sc-for list="{{ feeRows }}" as="r" hint-placeholder-count="6">
+          <div style="display:flex;align-items:center;gap:12px;padding:14px 24px;border-bottom:1px solid #F2F4F8">
+            <span style="width:8px;height:8px;border-radius:2px;flex:0 0 auto;background:{{ r.brandColor }}"></span>
+            <span style="flex:1 1 auto;min-width:0;font:600 15px/1.3 Inter,sans-serif;color:#171A21">{{ r.model }}</span>
+            <span style="font:400 13px/1 Inter,sans-serif;color:#98A2B3">recebe {{ r.net }}</span>
+            <span style="min-width:72px;text-align:right;font:700 15px/1 Inter,sans-serif;color:#171A21">{{ r.rate }}</span>
+          </div>
+        </sc-for>
+        <div style="padding:16px 24px;display:flex;gap:10px;align-items:flex-start;background:#F8F9FC">
+          <span style="width:20px;height:20px;flex:0 0 auto;border-radius:6px;background:#FEF3DC;color:#B27309;font:700 12px/20px Inter,sans-serif;text-align:center">!</span>
+          <p style="margin:0;font:400 13px/1.6 Inter,sans-serif;color:#667085">As taxas podem variar conforme plano, campanha e faturamento. Confirme no site oficial antes de contratar.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section style="max-width:1280px;margin:0 auto;padding:clamp(48px,6vw,80px) 24px 0">
+    <div style="max-width:620px">
+      <h2 style="margin:0;font:700 clamp(28px,3vw,36px)/1.2 Manrope,sans-serif;letter-spacing:-0.02em">Destaques por necessidade</h2>
+      <p style="margin:12px 0 0;font:400 17px/1.6 Inter,sans-serif;color:#667085">Seleções montadas a partir dos critérios de cada categoria.</p>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:24px;margin-top:32px">
+      <sc-for list="{{ highlights }}" as="h" hint-placeholder-count="4">
+        <div style="background:#fff;border:1px solid #E4E7EC;border-radius:20px;padding:24px">
+          <h3 style="margin:0;font:700 19px/1.3 Manrope,sans-serif">{{ h.title }}</h3>
+          <p style="margin:8px 0 0;font:400 13px/1.5 Inter,sans-serif;color:#98A2B3">{{ h.rule }}</p>
+          <div style="margin-top:20px;display:flex;flex-direction:column;gap:10px">
+            <sc-for list="{{ h.items }}" as="i" hint-placeholder-count="2">
+              <button data-focus="1" onClick="{{ i.onOpen }}" style="display:flex;align-items:center;gap:12px;text-align:left;cursor:pointer;background:#F8F9FC;border:1px solid #E4E7EC;border-radius:12px;padding:10px 12px" style-hover="background:#fff;border-color:#D0D5DD">
+                <span style="width:44px;height:44px;flex:0 0 auto;border-radius:10px;background:#fff;border:1px dashed #D0D5DD;background-image:repeating-linear-gradient(135deg,rgba(109,93,251,0.06) 0 8px,transparent 8px 16px)"></span>
+                <span style="flex:1 1 auto;min-width:0">
+                  <span style="display:block;font:600 14px/1.3 Inter,sans-serif;color:#171A21">{{ i.model }}</span>
+                  <span style="display:block;margin-top:3px;font:500 12px/1 Inter,sans-serif;color:#667085">{{ i.brand }} · {{ i.priceLabel }}</span>
+                </span>
+                <span style="font:600 13px/1 Inter,sans-serif;color:#5145CD">Ver</span>
+              </button>
+            </sc-for>
+          </div>
+        </div>
+      </sc-for>
+    </div>
+  </section>
+
+  <section id="faq" style="max-width:1280px;margin:0 auto;padding:clamp(48px,6vw,80px) 24px 0">
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:40px">
+      <div>
+        <h2 style="margin:0;font:700 clamp(28px,3vw,36px)/1.2 Manrope,sans-serif;letter-spacing:-0.02em">Perguntas frequentes</h2>
+        <p style="margin:12px 0 0;max-width:360px;font:400 16px/1.6 Inter,sans-serif;color:#667085">Se ficar alguma dúvida, o quiz também ajuda a estreitar as opções.</p>
+      </div>
+      <div style="grid-column:span 2;min-width:0;background:#fff;border:1px solid #E4E7EC;border-radius:20px;overflow:hidden">
+        <sc-for list="{{ faqs }}" as="f" hint-placeholder-count="9">
+          <div style="border-bottom:1px solid #F2F4F8">
+            <button data-focus="1" onClick="{{ f.onClick }}" style="width:100%;display:flex;align-items:center;justify-content:space-between;gap:16px;text-align:left;background:none;border:none;cursor:pointer;padding:18px 24px;font:600 16px/1.4 Inter,sans-serif;color:#171A21" style-hover="background:#F8F9FC">
+              {{ f.q }}
+              <span style="flex:0 0 auto;width:24px;height:24px;border-radius:8px;background:#F2F4F8;color:#667085;font:700 14px/24px Inter,sans-serif;text-align:center">{{ f.icon }}</span>
+            </button>
+            <sc-if value="{{ f.open }}" hint-placeholder-val="{{ false }}">
+              <p style="margin:0;padding:0 24px 20px;max-width:720px;font:400 15px/1.7 Inter,sans-serif;color:#667085;text-wrap:pretty">{{ f.a }}</p>
+            </sc-if>
+          </div>
+        </sc-for>
+      </div>
+    </div>
+  </section>
+
+  <section style="max-width:1280px;margin:0 auto;padding:clamp(48px,6vw,80px) 24px clamp(48px,6vw,80px)">
+    <div style="background:#EEECFF;border-radius:24px;padding:clamp(32px,5vw,64px);text-align:center">
+      <h2 style="margin:0;font:700 clamp(28px,3.2vw,40px)/1.15 Manrope,sans-serif;letter-spacing:-0.02em;color:#171A21">Ainda em dúvida?</h2>
+      <p style="margin:16px auto 0;max-width:520px;font:400 17px/1.6 Inter,sans-serif;color:#5b5570;text-wrap:pretty">Responda algumas perguntas e encontre opções compatíveis com o seu negócio.</p>
+      <div style="display:flex;flex-wrap:wrap;gap:12px;justify-content:center;margin-top:32px">
+        <button data-focus="1" onClick="{{ startQuiz }}" style="height:52px;padding:0 24px;border-radius:12px;background:#6D5DFB;border:none;color:#fff;font:600 16px/1 Inter,sans-serif;cursor:pointer" style-hover="background:#5145CD">Descobrir minha maquininha</button>
+        <button data-focus="1" onClick="{{ openCompare }}" style="height:52px;padding:0 24px;border-radius:12px;background:#fff;border:1px solid #D9D5F5;color:#171A21;font:600 16px/1 Inter,sans-serif;cursor:pointer" style-hover="background:#F8F9FC">Comparar modelos</button>
+      </div>
+    </div>
+  </section>
+</main>
+</sc-if>
+
+<sc-if value="{{ isProduct }}" hint-placeholder-val="{{ false }}">
+<main style="max-width:1280px;margin:0 auto;padding:32px 24px clamp(48px,6vw,80px)">
+  <nav style="display:flex;align-items:center;gap:8px;font:500 14px/1 Inter,sans-serif;color:#98A2B3">
+    <a href="#" onClick="{{ goHome }}" style="color:#667085">Início</a>
+    <span>/</span>
+    <a href="#" onClick="{{ goHome }}" style="color:#667085">Maquininhas</a>
+    <span>/</span>
+    <span style="color:#98A2B3">{{ detail.brand }}</span>
+    <span>/</span>
+    <span style="color:#171A21">{{ detail.model }}</span>
+  </nav>
+
+  <div style="margin-top:24px;display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:32px;align-items:start">
+    <div style="background:#fff;border:1px solid #E4E7EC;border-radius:24px;padding:24px">
+      <div style="aspect-ratio:1/1;border-radius:20px;background:#F8F9FC;border:1px dashed #D0D5DD;background-image:repeating-linear-gradient(135deg,rgba(109,93,251,0.06) 0 12px,transparent 12px 24px);display:flex;align-items:flex-end;justify-content:center;padding:20px">
+        <span style="font:500 11px/1.5 ui-monospace,SFMono-Regular,Menlo,monospace;color:#98A2B3;text-align:center;letter-spacing:0.04em">[ IMAGEM OFICIAL — 1200×1200 ]<br />{{ detail.model }}</span>
+      </div>
+      <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:12px">
+        <div style="aspect-ratio:1/1;border-radius:12px;border:1.5px solid #6D5DFB;background:#F8F9FC;background-image:repeating-linear-gradient(135deg,rgba(109,93,251,0.08) 0 8px,transparent 8px 16px)"></div>
+        <div style="aspect-ratio:1/1;border-radius:12px;border:1px dashed #D0D5DD;background:#F8F9FC"></div>
+        <div style="aspect-ratio:1/1;border-radius:12px;border:1px dashed #D0D5DD;background:#F8F9FC"></div>
+        <div style="aspect-ratio:1/1;border-radius:12px;border:1px dashed #D0D5DD;background:#F8F9FC"></div>
+      </div>
+    </div>
+
+    <div style="min-width:0">
+      <div style="display:flex;flex-wrap:wrap;gap:8px">
+        <span style="height:28px;padding:0 10px;border-radius:8px;display:flex;align-items:center;gap:6px;font:600 13px/1 Inter,sans-serif;color:#344054;background:#fff;border:1px solid #E4E7EC"><span style="width:7px;height:7px;border-radius:2px;background:{{ detail.brandColor }}"></span>{{ detail.brand }}</span>
+        <span style="height:28px;padding:0 10px;border-radius:8px;display:flex;align-items:center;font:600 13px/1 Inter,sans-serif;color:#5145CD;background:#EEECFF">{{ detail.badge }}</span>
+        <span style="height:28px;padding:0 10px;border-radius:8px;display:flex;align-items:center;font:700 13px/1 Inter,sans-serif;color:#fff;background:#22A06B">-{{ detail.discount }}% agora</span>
+      </div>
+      <h1 style="margin:16px 0 0;font:700 clamp(30px,3.4vw,44px)/1.15 Manrope,sans-serif;letter-spacing:-0.025em">{{ detail.model }}</h1>
+      <p style="margin:12px 0 0;max-width:520px;font:400 17px/1.6 Inter,sans-serif;color:#667085;text-wrap:pretty">{{ detail.tagline }}</p>
+
+      <div style="margin-top:24px;background:#fff;border:1px solid #E4E7EC;border-radius:20px;padding:24px;box-shadow:0 4px 12px rgba(16,24,40,0.06)">
+        <div style="display:flex;align-items:baseline;gap:10px">
+          <span style="font:400 15px/1 Inter,sans-serif;color:#98A2B3;text-decoration:line-through">{{ detail.fromLabel }}</span>
+          <span style="font:500 13px/1 Inter,sans-serif;color:#22A06B">economia de {{ detail.saveLabel }}</span>
+        </div>
+        <div style="display:flex;align-items:baseline;gap:10px;margin-top:6px">
+          <span style="font:700 40px/1 Manrope,sans-serif;letter-spacing:-0.03em">{{ detail.priceLabel }}</span>
+          <span style="font:500 14px/1 Inter,sans-serif;color:#667085">à vista</span>
+        </div>
+        <p style="margin:8px 0 0;font:500 15px/1 Inter,sans-serif;color:#667085">ou {{ detail.inst }} no cartão</p>
+        <button data-focus="1" onClick="{{ detail.onBuy }}" style="width:100%;margin-top:20px;height:56px;border-radius:12px;background:#6D5DFB;border:none;color:#fff;font:700 17px/1 Inter,sans-serif;cursor:pointer;box-shadow:0 4px 12px rgba(109,93,251,0.24)" style-hover="background:#5145CD">Comprar no site oficial</button>
+        <p style="margin:12px 0 0;text-align:center;font:400 13px/1.5 Inter,sans-serif;color:#98A2B3">Você será direcionado ao site da empresa.</p>
+        <div style="display:flex;gap:10px;margin-top:16px">
+          <button data-focus="1" onClick="{{ detail.onCompare }}" style="flex:1 1 0;height:44px;border-radius:12px;background:#fff;border:1px solid #E4E7EC;color:#171A21;font:600 15px/1 Inter,sans-serif;cursor:pointer" style-hover="background:#F8F9FC;border-color:#D0D5DD">{{ detail.compareLabel }}</button>
+          <button data-focus="1" onClick="{{ openCompare }}" style="flex:1 1 0;height:44px;border-radius:12px;background:#fff;border:1px solid #E4E7EC;color:#171A21;font:600 15px/1 Inter,sans-serif;cursor:pointer" style-hover="background:#F8F9FC;border-color:#D0D5DD">Ver comparação</button>
+        </div>
+      </div>
+
+      <div style="margin-top:20px;display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:12px">
+        <div style="background:#fff;border:1px solid #E4E7EC;border-radius:12px;padding:14px">
+          <span style="display:block;font:600 11px/1 Inter,sans-serif;color:#98A2B3;text-transform:uppercase;letter-spacing:0.05em">Pix</span>
+          <span style="display:block;margin-top:6px;font:700 18px/1 Manrope,sans-serif">{{ detail.pixLabel }}</span>
+        </div>
+        <div style="background:#fff;border:1px solid #E4E7EC;border-radius:12px;padding:14px">
+          <span style="display:block;font:600 11px/1 Inter,sans-serif;color:#98A2B3;text-transform:uppercase;letter-spacing:0.05em">Débito</span>
+          <span style="display:block;margin-top:6px;font:700 18px/1 Manrope,sans-serif">{{ detail.debLabel }}</span>
+        </div>
+        <div style="background:#fff;border:1px solid #E4E7EC;border-radius:12px;padding:14px">
+          <span style="display:block;font:600 11px/1 Inter,sans-serif;color:#98A2B3;text-transform:uppercase;letter-spacing:0.05em">Crédito</span>
+          <span style="display:block;margin-top:6px;font:700 18px/1 Manrope,sans-serif">{{ detail.credLabel }}</span>
+        </div>
+        <div style="background:#fff;border:1px solid #E4E7EC;border-radius:12px;padding:14px">
+          <span style="display:block;font:600 11px/1 Inter,sans-serif;color:#98A2B3;text-transform:uppercase;letter-spacing:0.05em">Parcelado</span>
+          <span style="display:block;margin-top:6px;font:700 18px/1 Manrope,sans-serif">{{ detail.parcLabel }}</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div style="margin-top:40px;display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:24px">
+    <div style="background:#fff;border:1px solid #E4E7EC;border-radius:20px;padding:28px">
+      <h2 style="margin:0;font:700 22px/1.3 Manrope,sans-serif">Características</h2>
+      <div style="margin-top:20px;display:flex;flex-direction:column">
+        <sc-for list="{{ detail.specs }}" as="s" hint-placeholder-count="8">
+          <div style="display:flex;justify-content:space-between;gap:16px;padding:12px 0;border-bottom:1px solid #F2F4F8">
+            <span style="font:500 15px/1.4 Inter,sans-serif;color:#667085">{{ s.k }}</span>
+            <span style="font:600 15px/1.4 Inter,sans-serif;color:#171A21;text-align:right">{{ s.v }}</span>
+          </div>
+        </sc-for>
+      </div>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:24px">
+      <div style="background:#fff;border:1px solid #E4E7EC;border-radius:20px;padding:28px">
+        <h2 style="margin:0;font:700 22px/1.3 Manrope,sans-serif">Perfil recomendado</h2>
+        <p style="margin:12px 0 0;font:400 15px/1.7 Inter,sans-serif;color:#667085;text-wrap:pretty">{{ detail.ideal }}</p>
+        <div style="display:flex;flex-wrap:wrap;gap:8px;margin-top:16px">
+          <sc-for list="{{ detail.profiles }}" as="pr" hint-placeholder-count="3">
+            <span style="height:30px;padding:0 12px;border-radius:999px;background:#F2F4F8;border:1px solid #E4E7EC;display:flex;align-items:center;font:500 13px/1 Inter,sans-serif;color:#344054">{{ pr }}</span>
+          </sc-for>
+        </div>
+      </div>
+      <div style="background:#fff;border:1px solid #E4E7EC;border-radius:20px;padding:28px">
+        <h2 style="margin:0;font:700 22px/1.3 Manrope,sans-serif">Pontos de atenção</h2>
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:24px;margin-top:20px">
+          <div>
+            <span style="font:600 12px/1 Inter,sans-serif;color:#22A06B;text-transform:uppercase;letter-spacing:0.06em">Características interessantes</span>
+            <ul style="list-style:none;margin:12px 0 0;padding:0;display:flex;flex-direction:column;gap:10px">
+              <sc-for list="{{ detail.pros }}" as="x" hint-placeholder-count="3">
+                <li style="display:flex;gap:8px;font:400 14px/1.5 Inter,sans-serif;color:#344054"><span style="flex:0 0 auto;width:16px;height:16px;border-radius:999px;background:#E6F5EE;color:#22A06B;font:700 10px/16px Inter,sans-serif;text-align:center">✓</span>{{ x }}</li>
+              </sc-for>
+            </ul>
+          </div>
+          <div>
+            <span style="font:600 12px/1 Inter,sans-serif;color:#B27309;text-transform:uppercase;letter-spacing:0.06em">Pode não ser ideal se…</span>
+            <ul style="list-style:none;margin:12px 0 0;padding:0;display:flex;flex-direction:column;gap:10px">
+              <sc-for list="{{ detail.notIdeal }}" as="x" hint-placeholder-count="2">
+                <li style="display:flex;gap:8px;font:400 14px/1.5 Inter,sans-serif;color:#344054"><span style="flex:0 0 auto;width:16px;height:16px;border-radius:999px;background:#FEF3DC;color:#B27309;font:700 10px/16px Inter,sans-serif;text-align:center">·</span>{{ x }}</li>
+              </sc-for>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div style="margin-top:40px">
+    <h2 style="margin:0;font:700 clamp(24px,2.6vw,30px)/1.2 Manrope,sans-serif;letter-spacing:-0.02em">Compare com modelos parecidos</h2>
+    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:16px;margin-top:20px">
+      <sc-for list="{{ similar }}" as="s" hint-placeholder-count="3">
+        <button data-focus="1" onClick="{{ s.onOpen }}" style="text-align:left;cursor:pointer;background:#fff;border:1px solid #E4E7EC;border-radius:16px;padding:16px;display:flex;gap:14px;align-items:center" style-hover="border-color:#D0D5DD;box-shadow:0 4px 12px rgba(16,24,40,0.08)">
+          <span style="width:64px;height:64px;flex:0 0 auto;border-radius:12px;background:#F8F9FC;border:1px dashed #D0D5DD;background-image:repeating-linear-gradient(135deg,rgba(109,93,251,0.06) 0 8px,transparent 8px 16px)"></span>
+          <span style="flex:1 1 auto;min-width:0">
+            <span style="display:block;font:500 12px/1 Inter,sans-serif;color:#98A2B3">{{ s.brand }}</span>
+            <span style="display:block;margin-top:5px;font:700 16px/1.2 Manrope,sans-serif;color:#171A21">{{ s.model }}</span>
+            <span style="display:block;margin-top:6px;font:600 14px/1 Inter,sans-serif;color:#5145CD">{{ s.priceLabel }}</span>
+          </span>
+        </button>
+      </sc-for>
+    </div>
+  </div>
+</main>
+</sc-if>
+
+<footer style="background:#171A21;margin-top:24px">
+  <div style="max-width:1280px;margin:0 auto;padding:clamp(40px,5vw,64px) 24px 32px;display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:40px">
+    <div>
+      <span style="display:flex;align-items:center;gap:10px">
+        <span style="width:32px;height:32px;border-radius:10px;background:#6D5DFB;display:flex;align-items:center;justify-content:center;color:#fff;font:800 15px/1 Manrope,sans-serif">C</span>
+        <span style="font:800 20px/1 Manrope,sans-serif;color:#fff;letter-spacing:-0.02em">comparô</span>
+      </span>
+      <p style="margin:16px 0 0;max-width:260px;font:400 14px/1.6 Inter,sans-serif;color:#98A2B3">Comparador independente de maquininhas de cartão.</p>
+    </div>
+    <div>
+      <span style="font:600 13px/1 Inter,sans-serif;color:#fff;text-transform:uppercase;letter-spacing:0.06em">Plataforma</span>
+      <div style="display:flex;flex-direction:column;gap:10px;margin-top:16px">
+        <a href="#catalogo" style="font:400 14px/1 Inter,sans-serif;color:#98A2B3">Maquininhas</a>
+        <a href="#" onClick="{{ openCompare }}" style="font:400 14px/1 Inter,sans-serif;color:#98A2B3">Comparar</a>
+        <a href="#como-escolher" style="font:400 14px/1 Inter,sans-serif;color:#98A2B3">Como escolher</a>
+        <a href="#taxas" style="font:400 14px/1 Inter,sans-serif;color:#98A2B3">Taxas</a>
+        <a href="#faq" style="font:400 14px/1 Inter,sans-serif;color:#98A2B3">FAQ</a>
+      </div>
+    </div>
+    <div>
+      <span style="font:600 13px/1 Inter,sans-serif;color:#fff;text-transform:uppercase;letter-spacing:0.06em">Legal</span>
+      <div style="display:flex;flex-direction:column;gap:10px;margin-top:16px">
+        <a href="#" style="font:400 14px/1 Inter,sans-serif;color:#98A2B3">Política de Privacidade</a>
+        <a href="#" style="font:400 14px/1 Inter,sans-serif;color:#98A2B3">Termos de uso</a>
+        <a href="#" style="font:400 14px/1 Inter,sans-serif;color:#98A2B3">Política de Cookies</a>
+      </div>
+    </div>
+    <div style="grid-column:span 2;min-width:0">
+      <span style="font:600 13px/1 Inter,sans-serif;color:#fff;text-transform:uppercase;letter-spacing:0.06em">Avisos</span>
+      <div style="display:flex;flex-direction:column;gap:10px;margin-top:16px">
+        <p style="margin:0;font:400 13px/1.6 Inter,sans-serif;color:#98A2B3">Este é um site independente de comparação e divulgação.</p>
+        <p style="margin:0;font:400 13px/1.6 Inter,sans-serif;color:#98A2B3">Mercado Pago, Point, Ton e demais marcas pertencem aos seus respectivos titulares.</p>
+        <p style="margin:0;font:400 13px/1.6 Inter,sans-serif;color:#98A2B3">Preços, taxas e condições podem ser alterados pelas empresas responsáveis.</p>
+      </div>
+    </div>
+  </div>
+  <div style="border-top:1px solid #2b3040">
+    <div style="max-width:1280px;margin:0 auto;padding:20px 24px;display:flex;flex-wrap:wrap;gap:12px;justify-content:space-between">
+      <span style="font:400 13px/1 Inter,sans-serif;color:#667085">© 2026 comparô. Todos os direitos reservados.</span>
+      <span style="font:400 13px/1 Inter,sans-serif;color:#667085">Dados atualizados em 20/09/2026</span>
+    </div>
+  </div>
+</footer>
+
+<sc-if value="{{ compareBarVisible }}" hint-placeholder-val="{{ false }}">
+  <div style="position:fixed;left:0;right:0;bottom:0;z-index:70;background:rgba(255,255,255,0.96);backdrop-filter:blur(14px);border-top:1px solid #E4E7EC;box-shadow:0 -8px 32px rgba(16,24,40,0.10);animation:sheetUp 200ms ease">
+    <div style="max-width:1280px;margin:0 auto;padding:14px 24px;display:flex;flex-wrap:wrap;align-items:center;gap:16px">
+      <span style="font:600 14px/1.3 Inter,sans-serif;color:#171A21;flex:0 0 auto">{{ compareBarLabel }}</span>
+      <div style="display:flex;flex-wrap:wrap;gap:10px;flex:1 1 auto;min-width:0">
+        <sc-for list="{{ compareItems }}" as="c" hint-placeholder-count="2">
+          <span style="display:flex;align-items:center;gap:10px;height:48px;padding:0 10px 0 8px;border-radius:12px;background:#F8F9FC;border:1px solid #E4E7EC">
+            <span style="width:32px;height:32px;border-radius:8px;background:#fff;border:1px dashed #D0D5DD;background-image:repeating-linear-gradient(135deg,rgba(109,93,251,0.07) 0 6px,transparent 6px 12px)"></span>
+            <span style="font:600 13px/1 Inter,sans-serif;color:#171A21">{{ c.model }}</span>
+            <button data-focus="1" onClick="{{ c.onRemove }}" style="width:24px;height:24px;border-radius:999px;border:none;background:#E9ECF2;color:#667085;font:700 13px/1 Inter,sans-serif;cursor:pointer" style-hover="background:#D0D5DD;color:#171A21">×</button>
+          </span>
+        </sc-for>
+        <sc-if value="{{ canAddCompare }}" hint-placeholder-val="{{ true }}">
+          <a href="#catalogo" style="display:flex;align-items:center;height:48px;padding:0 16px;border-radius:12px;border:1px dashed #D0D5DD;font:500 13px/1 Inter,sans-serif;color:#667085">+ adicionar</a>
+        </sc-if>
+      </div>
+      <div style="display:flex;gap:10px;flex:0 0 auto">
+        <button data-focus="1" onClick="{{ clearCompare }}" style="height:48px;padding:0 16px;border-radius:12px;background:#fff;border:1px solid #E4E7EC;color:#667085;font:600 14px/1 Inter,sans-serif;cursor:pointer" style-hover="color:#171A21;border-color:#D0D5DD">Limpar</button>
+        <button data-focus="1" onClick="{{ openCompare }}" style="height:48px;padding:0 20px;border-radius:12px;background:#6D5DFB;border:none;color:#fff;font:600 15px/1 Inter,sans-serif;cursor:pointer" style-hover="background:#5145CD">Comparar agora</button>
+      </div>
+    </div>
+  </div>
+</sc-if>
+
+<sc-if value="{{ filtersOpen }}" hint-placeholder-val="{{ false }}">
+  <div style="position:fixed;inset:0;z-index:90;background:rgba(23,26,33,0.4);display:flex;justify-content:flex-end">
+    <div onClick="{{ closeFilters }}" style="position:absolute;inset:0"></div>
+    <aside style="position:relative;width:min(400px,100%);height:100%;background:#fff;border-left:1px solid #E4E7EC;display:flex;flex-direction:column;box-shadow:-12px 0 32px rgba(16,24,40,0.12);animation:fadeUp 200ms ease">
+      <div style="padding:20px 24px;border-bottom:1px solid #E4E7EC;display:flex;align-items:center;justify-content:space-between">
+        <h2 style="margin:0;font:700 20px/1 Manrope,sans-serif">Filtros</h2>
+        <button data-focus="1" onClick="{{ closeFilters }}" style="width:36px;height:36px;border-radius:10px;border:1px solid #E4E7EC;background:#fff;color:#667085;font:500 16px/1 Inter,sans-serif;cursor:pointer" style-hover="background:#F8F9FC">×</button>
+      </div>
+      <div style="flex:1 1 auto;overflow-y:auto;padding:24px;display:flex;flex-direction:column;gap:28px">
+        <div>
+          <span style="font:600 14px/1 Inter,sans-serif;color:#171A21">Marca</span>
+          <div style="display:flex;flex-direction:column;gap:10px;margin-top:14px">
+            <sc-for list="{{ brandRadios }}" as="b" hint-placeholder-count="3">
+              <label style="display:flex;align-items:center;gap:12px;cursor:pointer;height:48px;padding:0 14px;border-radius:12px;font:500 15px/1 Inter,sans-serif;background:{{ b.bg }};border:1px solid {{ b.bd }};color:#171A21">
+                <span style="width:20px;height:20px;border-radius:999px;border:2px solid {{ b.dotBd }};display:flex;align-items:center;justify-content:center">
+                  <span style="width:10px;height:10px;border-radius:999px;background:{{ b.dot }}"></span>
+                </span>
+                <input data-focus="1" type="radio" checked="{{ b.active }}" onChange="{{ b.onClick }}" style="position:absolute;opacity:0;width:1px;height:1px" />
+                {{ b.label }}
+              </label>
+            </sc-for>
+          </div>
+        </div>
+        <div>
+          <span style="font:600 14px/1 Inter,sans-serif;color:#171A21">Perfil do negócio</span>
+          <div style="display:flex;flex-wrap:wrap;gap:8px;margin-top:14px">
+            <sc-for list="{{ profileChips }}" as="p" hint-placeholder-count="6">
+              <button data-focus="1" onClick="{{ p.onClick }}" style="height:40px;padding:0 14px;border-radius:999px;cursor:pointer;font:500 14px/1 Inter,sans-serif;background:{{ p.bg }};color:{{ p.fg }};border:1px solid {{ p.bd }}">{{ p.label }}</button>
+            </sc-for>
+          </div>
+        </div>
+        <div>
+          <span style="font:600 14px/1 Inter,sans-serif;color:#171A21">Recursos</span>
+          <div style="display:flex;flex-direction:column;gap:6px;margin-top:14px">
+            <sc-for list="{{ featChips }}" as="f" hint-placeholder-count="5">
+              <label style="display:flex;align-items:center;gap:12px;cursor:pointer;height:48px;padding:0 4px;font:500 15px/1 Inter,sans-serif;color:#171A21">
+                <span style="width:20px;height:20px;border-radius:6px;display:flex;align-items:center;justify-content:center;font:700 12px/1 Inter,sans-serif;color:#fff;background:{{ f.checkBg }};border:1.5px solid {{ f.checkBd }}">{{ f.mark }}</span>
+                <input data-focus="1" type="checkbox" checked="{{ f.active }}" onChange="{{ f.onClick }}" style="position:absolute;opacity:0;width:1px;height:1px" />
+                {{ f.label }}
+              </label>
+            </sc-for>
+          </div>
+        </div>
+      </div>
+      <div style="padding:20px 24px;border-top:1px solid #E4E7EC;display:flex;gap:12px">
+        <button data-focus="1" onClick="{{ clearFilters }}" style="flex:0 0 auto;height:48px;padding:0 18px;border-radius:12px;background:#fff;border:1px solid #E4E7EC;color:#667085;font:600 15px/1 Inter,sans-serif;cursor:pointer" style-hover="color:#171A21">Limpar</button>
+        <button data-focus="1" onClick="{{ closeFilters }}" style="flex:1 1 auto;height:48px;border-radius:12px;background:#6D5DFB;border:none;color:#fff;font:600 15px/1 Inter,sans-serif;cursor:pointer" style-hover="background:#5145CD">{{ applyLabel }}</button>
+      </div>
+    </aside>
+  </div>
+</sc-if>
+
+<sc-if value="{{ compareOpen }}" hint-placeholder-val="{{ false }}">
+  <div style="position:fixed;inset:0;z-index:100;background:rgba(23,26,33,0.45);display:flex;align-items:flex-start;justify-content:center;padding:clamp(0px,3vw,40px);overflow-y:auto">
+    <div style="position:relative;width:min(1200px,100%);background:#F8F9FC;border-radius:clamp(0px,2vw,24px);border:1px solid #E4E7EC;box-shadow:0 12px 32px rgba(16,24,40,0.18);animation:fadeUp 200ms ease;overflow:hidden">
+      <div style="position:sticky;top:0;z-index:2;background:#fff;border-bottom:1px solid #E4E7EC;padding:20px 24px;display:flex;align-items:center;justify-content:space-between;gap:16px">
+        <div>
+          <h2 style="margin:0;font:700 22px/1.2 Manrope,sans-serif">Comparar maquininhas</h2>
+          <p style="margin:6px 0 0;font:400 14px/1 Inter,sans-serif;color:#667085">{{ compareBarLabel }}</p>
+        </div>
+        <button data-focus="1" onClick="{{ closeCompare }}" style="width:40px;height:40px;border-radius:12px;border:1px solid #E4E7EC;background:#fff;color:#667085;font:500 18px/1 Inter,sans-serif;cursor:pointer" style-hover="background:#F8F9FC">×</button>
+      </div>
+
+      <sc-if value="{{ compareEmpty }}" hint-placeholder-val="{{ false }}">
+        <div style="padding:80px 24px;text-align:center">
+          <div style="width:64px;height:64px;margin:0 auto;border-radius:16px;background:#fff;border:1px solid #E4E7EC;display:flex;align-items:center;justify-content:center"><span style="width:20px;height:20px;border:2px solid #98A2B3;border-radius:6px"></span></div>
+          <h3 style="margin:20px 0 0;font:700 22px/1.3 Manrope,sans-serif">Sua comparação está vazia</h3>
+          <p style="margin:10px auto 0;max-width:400px;font:400 15px/1.6 Inter,sans-serif;color:#667085">Marque “Comparar” em até {{ maxCompare }} maquininhas do catálogo para ver as diferenças lado a lado.</p>
+          <button data-focus="1" onClick="{{ closeCompare }}" style="margin-top:24px;height:48px;padding:0 22px;border-radius:12px;background:#6D5DFB;border:none;color:#fff;font:600 15px/1 Inter,sans-serif;cursor:pointer" style-hover="background:#5145CD">Ver catálogo</button>
+        </div>
+      </sc-if>
+
+      <sc-if value="{{ compareReady }}" hint-placeholder-val="{{ false }}">
+        <div style="overflow-x:auto;padding:24px">
+          <div style="min-width:{{ tableMinWidth }}">
+            <div style="display:grid;grid-template-columns:{{ tableCols }};gap:16px;align-items:end">
+              <div style="font:600 13px/1.4 Inter,sans-serif;color:#98A2B3;text-transform:uppercase;letter-spacing:0.06em;padding-bottom:12px">Produto</div>
+              <sc-for list="{{ compareItems }}" as="c" hint-placeholder-count="2">
+                <div style="background:#fff;border:1px solid #E4E7EC;border-radius:16px;padding:16px">
+                  <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:8px">
+                    <span style="height:24px;padding:0 8px;border-radius:6px;display:flex;align-items:center;gap:6px;font:600 11px/1 Inter,sans-serif;color:#344054;background:#F2F4F8"><span style="width:6px;height:6px;border-radius:2px;background:{{ c.brandColor }}"></span>{{ c.brand }}</span>
+                    <button data-focus="1" onClick="{{ c.onRemove }}" style="width:24px;height:24px;border-radius:999px;border:none;background:#F2F4F8;color:#667085;font:700 13px/1 Inter,sans-serif;cursor:pointer" style-hover="background:#E9ECF2">×</button>
+                  </div>
+                  <div style="margin-top:12px;aspect-ratio:4/3;border-radius:12px;background:#F8F9FC;border:1px dashed #D0D5DD;background-image:repeating-linear-gradient(135deg,rgba(109,93,251,0.06) 0 10px,transparent 10px 20px)"></div>
+                  <h3 style="margin:14px 0 0;font:700 17px/1.25 Manrope,sans-serif">{{ c.model }}</h3>
+                  <span style="display:block;margin-top:8px;font:700 22px/1 Manrope,sans-serif">{{ c.priceLabel }}</span>
+                  <span style="display:block;margin-top:4px;font:500 12px/1 Inter,sans-serif;color:#667085">{{ c.inst }}</span>
+                  <button data-focus="1" onClick="{{ c.onBuy }}" style="width:100%;margin-top:14px;height:44px;border-radius:12px;background:#6D5DFB;border:none;color:#fff;font:600 14px/1 Inter,sans-serif;cursor:pointer" style-hover="background:#5145CD">Quero essa</button>
+                </div>
+              </sc-for>
+            </div>
+
+            <div style="margin-top:24px;background:#fff;border:1px solid #E4E7EC;border-radius:16px;overflow:hidden">
+              <sc-for list="{{ compareRows }}" as="r" hint-placeholder-count="18">
+                <div style="display:grid;grid-template-columns:{{ tableCols }};gap:16px;align-items:center;padding:14px 16px;border-bottom:1px solid #F2F4F8;background:{{ r.rowBg }}">
+                  <div style="display:flex;align-items:center;gap:8px;font:500 14px/1.4 Inter,sans-serif;color:#667085">
+                    {{ r.label }}
+                    <sc-if value="{{ r.diff }}" hint-placeholder-val="{{ false }}">
+                      <span style="height:20px;padding:0 6px;border-radius:6px;background:#EEECFF;color:#5145CD;font:600 10px/20px Inter,sans-serif;letter-spacing:0.04em">DIFERE</span>
+                    </sc-if>
+                  </div>
+                  <sc-for list="{{ r.cells }}" as="cell" hint-placeholder-count="2">
+                    <div style="font:600 15px/1.4 Inter,sans-serif;color:{{ cell.color }}">{{ cell.v }}</div>
+                  </sc-for>
+                </div>
+              </sc-for>
+            </div>
+            <p style="margin:16px 0 0;font:400 13px/1.6 Inter,sans-serif;color:#98A2B3">Taxas e preços são informativos e podem variar conforme plano, campanha e faturamento. Confirme no site oficial. Dados atualizados em 20/09/2026.</p>
+          </div>
+        </div>
+      </sc-if>
+    </div>
+  </div>
+</sc-if>
+
+<sc-if value="{{ quizOpen }}" hint-placeholder-val="{{ false }}">
+  <div style="position:fixed;inset:0;z-index:110;background:#fff;display:flex;flex-direction:column;overflow-y:auto">
+    <div style="position:sticky;top:0;background:rgba(255,255,255,0.94);backdrop-filter:blur(10px);border-bottom:1px solid #E4E7EC;z-index:2">
+      <div style="max-width:800px;margin:0 auto;padding:16px 24px;display:flex;align-items:center;gap:16px">
+        <button data-focus="1" onClick="{{ quizBack }}" style="width:40px;height:40px;flex:0 0 auto;border-radius:12px;border:1px solid #E4E7EC;background:#fff;color:#667085;font:600 15px/1 Inter,sans-serif;cursor:pointer" style-hover="background:#F8F9FC">←</button>
+        <div style="flex:1 1 auto;min-width:0">
+          <div style="display:flex;justify-content:space-between;align-items:baseline">
+            <span style="font:700 15px/1 Manrope,sans-serif;color:#171A21">Encontre sua maquininha</span>
+            <span style="font:500 13px/1 Inter,sans-serif;color:#667085">{{ quizStepLabel }}</span>
+          </div>
+          <div style="margin-top:10px;height:6px;border-radius:999px;background:#F2F4F8;overflow:hidden">
+            <div style="height:100%;border-radius:999px;background:#6D5DFB;transition:width 250ms ease;width:{{ quizProgress }}"></div>
+          </div>
+        </div>
+        <button data-focus="1" onClick="{{ closeQuiz }}" style="width:40px;height:40px;flex:0 0 auto;border-radius:12px;border:1px solid #E4E7EC;background:#fff;color:#667085;font:500 18px/1 Inter,sans-serif;cursor:pointer" style-hover="background:#F8F9FC">×</button>
+      </div>
+    </div>
+
+    <sc-if value="{{ quizAsking }}" hint-placeholder-val="{{ true }}">
+      <div style="max-width:800px;width:100%;margin:0 auto;padding:clamp(32px,6vw,72px) 24px 64px">
+        <span style="font:600 13px/1 Inter,sans-serif;color:#5145CD;text-transform:uppercase;letter-spacing:0.08em">{{ quizStepLabel }}</span>
+        <h2 style="margin:16px 0 0;font:700 clamp(28px,3.6vw,40px)/1.2 Manrope,sans-serif;letter-spacing:-0.02em;text-wrap:balance">{{ quizQuestion }}</h2>
+        <p style="margin:12px 0 0;font:400 16px/1.6 Inter,sans-serif;color:#667085">{{ quizHelp }}</p>
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:12px;margin-top:32px">
+          <sc-for list="{{ quizOptions }}" as="o" hint-placeholder-count="4">
+            <button data-focus="1" onClick="{{ o.onClick }}" style="display:flex;align-items:center;gap:14px;text-align:left;cursor:pointer;min-height:72px;padding:16px 18px;border-radius:16px;font:600 16px/1.35 Inter,sans-serif;background:{{ o.bg }};border:1.5px solid {{ o.bd }};color:{{ o.fg }};transition:transform 150ms ease,border-color 150ms ease" style-hover="transform:translateY(-2px);border-color:#6D5DFB">
+              <span style="width:28px;height:28px;flex:0 0 auto;border-radius:999px;display:flex;align-items:center;justify-content:center;font:700 12px/1 Inter,sans-serif;background:{{ o.dotBg }};color:{{ o.dotFg }};border:1.5px solid {{ o.dotBd }}">{{ o.key }}</span>
+              {{ o.label }}
+            </button>
+          </sc-for>
+        </div>
+        <div style="display:flex;align-items:center;gap:16px;margin-top:32px">
+          <button data-focus="1" onClick="{{ quizSkip }}" style="height:44px;padding:0 16px;border-radius:12px;background:none;border:none;color:#667085;font:600 15px/1 Inter,sans-serif;cursor:pointer" style-hover="color:#171A21">Pular esta pergunta</button>
+          <span style="font:400 14px/1 Inter,sans-serif;color:#98A2B3">Nenhuma resposta é obrigatória.</span>
+        </div>
+      </div>
+    </sc-if>
+
+    <sc-if value="{{ quizDone }}" hint-placeholder-val="{{ false }}">
+      <div style="max-width:960px;width:100%;margin:0 auto;padding:clamp(32px,5vw,56px) 24px 80px">
+        <div style="text-align:center">
+          <span style="display:inline-flex;align-items:center;gap:8px;height:32px;padding:0 14px;border-radius:999px;background:#E6F5EE;color:#1a7f54;font:600 13px/1 Inter,sans-serif">Resultado pronto</span>
+          <h2 style="margin:18px 0 0;font:700 clamp(28px,3.6vw,40px)/1.2 Manrope,sans-serif;letter-spacing:-0.02em">Encontramos boas opções para você</h2>
+          <p style="margin:12px auto 0;max-width:520px;font:400 16px/1.6 Inter,sans-serif;color:#667085">Com base nas suas respostas, estas são as que mais combinam com o seu jeito de vender.</p>
+        </div>
+
+        <div style="margin-top:36px;background:#fff;border:1.5px solid #6D5DFB;border-radius:24px;padding:24px;box-shadow:0 12px 32px rgba(109,93,251,0.14);display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:28px;align-items:center">
+          <div style="min-width:0">
+            <span style="height:28px;padding:0 12px;border-radius:999px;background:#6D5DFB;color:#fff;font:700 12px/28px Inter,sans-serif;display:inline-block">Melhor combinação</span>
+            <h3 style="margin:14px 0 0;font:700 clamp(24px,2.6vw,30px)/1.2 Manrope,sans-serif">{{ topPick.model }}</h3>
+            <span style="display:flex;align-items:center;gap:6px;margin-top:8px;font:500 13px/1 Inter,sans-serif;color:#667085"><span style="width:7px;height:7px;border-radius:2px;background:{{ topPick.brandColor }}"></span>{{ topPick.brand }}</span>
+            <p style="margin:16px 0 0;padding:14px 16px;border-radius:12px;background:#EEECFF;font:500 15px/1.6 Inter,sans-serif;color:#3f3699;text-wrap:pretty">{{ topPick.reason }}</p>
+            <ul style="list-style:none;margin:16px 0 0;padding:0;display:grid;grid-template-columns:1fr 1fr;gap:8px">
+              <sc-for list="{{ topPick.feats }}" as="f" hint-placeholder-count="4">
+                <li style="display:flex;align-items:center;gap:6px;font:500 13px/1.3 Inter,sans-serif;color:#344054"><span style="flex:0 0 auto;width:16px;height:16px;border-radius:999px;background:#EEECFF;color:#5145CD;font:700 10px/16px Inter,sans-serif;text-align:center">✓</span>{{ f }}</li>
+              </sc-for>
+            </ul>
+            <div style="display:flex;align-items:baseline;gap:10px;margin-top:20px">
+              <span style="font:700 32px/1 Manrope,sans-serif">{{ topPick.priceLabel }}</span>
+              <span style="font:500 14px/1 Inter,sans-serif;color:#667085">ou {{ topPick.inst }}</span>
+            </div>
+            <div style="display:flex;flex-wrap:wrap;gap:10px;margin-top:20px">
+              <button data-focus="1" onClick="{{ topPick.onBuy }}" style="height:52px;padding:0 22px;border-radius:12px;background:#6D5DFB;border:none;color:#fff;font:600 16px/1 Inter,sans-serif;cursor:pointer" style-hover="background:#5145CD">Quero essa maquininha</button>
+              <button data-focus="1" onClick="{{ topPick.onOpen }}" style="height:52px;padding:0 22px;border-radius:12px;background:#fff;border:1px solid #E4E7EC;color:#171A21;font:600 16px/1 Inter,sans-serif;cursor:pointer" style-hover="background:#F8F9FC">Ver detalhes</button>
+            </div>
+          </div>
+          <div style="aspect-ratio:1/1;border-radius:20px;background:#F8F9FC;border:1px dashed #D0D5DD;background-image:repeating-linear-gradient(135deg,rgba(109,93,251,0.07) 0 12px,transparent 12px 24px);display:flex;align-items:flex-end;justify-content:center;padding:18px">
+            <span style="font:500 11px/1.5 ui-monospace,SFMono-Regular,Menlo,monospace;color:#98A2B3;text-align:center">[ IMAGEM OFICIAL ]<br />{{ topPick.model }}</span>
+          </div>
+        </div>
+
+        <h3 style="margin:36px 0 0;font:700 20px/1.2 Manrope,sans-serif">Outras opções que fazem sentido</h3>
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:16px;margin-top:16px">
+          <sc-for list="{{ altPicks }}" as="a" hint-placeholder-count="2">
+            <div style="background:#fff;border:1px solid #E4E7EC;border-radius:20px;padding:20px">
+              <span style="display:flex;align-items:center;gap:6px;font:500 12px/1 Inter,sans-serif;color:#667085"><span style="width:7px;height:7px;border-radius:2px;background:{{ a.brandColor }}"></span>{{ a.brand }}</span>
+              <h4 style="margin:10px 0 0;font:700 19px/1.25 Manrope,sans-serif">{{ a.model }}</h4>
+              <p style="margin:10px 0 0;font:400 14px/1.6 Inter,sans-serif;color:#667085;text-wrap:pretty">{{ a.reason }}</p>
+              <span style="display:block;margin-top:16px;font:700 24px/1 Manrope,sans-serif">{{ a.priceLabel }}</span>
+              <span style="display:block;margin-top:4px;font:500 13px/1 Inter,sans-serif;color:#667085">{{ a.inst }}</span>
+              <div style="display:flex;flex-direction:column;gap:8px;margin-top:18px">
+                <button data-focus="1" onClick="{{ a.onBuy }}" style="height:48px;border-radius:12px;background:#171A21;border:none;color:#fff;font:600 15px/1 Inter,sans-serif;cursor:pointer" style-hover="background:#2b3040">Quero essa</button>
+                <button data-focus="1" onClick="{{ a.onOpen }}" style="height:44px;border-radius:12px;background:#fff;border:1px solid #E4E7EC;color:#171A21;font:600 15px/1 Inter,sans-serif;cursor:pointer" style-hover="background:#F8F9FC">Ver detalhes</button>
+              </div>
+            </div>
+          </sc-for>
+        </div>
+
+        <div style="display:flex;flex-wrap:wrap;gap:12px;justify-content:center;margin-top:36px">
+          <button data-focus="1" onClick="{{ compareResults }}" style="height:52px;padding:0 24px;border-radius:12px;background:#fff;border:1px solid #E4E7EC;color:#171A21;font:600 16px/1 Inter,sans-serif;cursor:pointer" style-hover="background:#F8F9FC;border-color:#D0D5DD">Comparar as opções</button>
+          <button data-focus="1" onClick="{{ restartQuiz }}" style="height:52px;padding:0 24px;border-radius:12px;background:none;border:none;color:#667085;font:600 16px/1 Inter,sans-serif;cursor:pointer" style-hover="color:#171A21">Refazer o quiz</button>
+        </div>
+        <p style="margin:28px auto 0;max-width:620px;text-align:center;font:400 13px/1.6 Inter,sans-serif;color:#98A2B3">A recomendação usa apenas critérios objetivos das suas respostas (preço, recursos e forma de vender). Alguns links são de indicação.</p>
+      </div>
+    </sc-if>
+  </div>
+</sc-if>
+
+<sc-if value="{{ toast }}" hint-placeholder-val="{{ false }}">
+  <div style="position:fixed;left:50%;transform:translateX(-50%);bottom:112px;z-index:120;display:flex;align-items:center;gap:12px;background:#171A21;color:#fff;border-radius:12px;padding:14px 18px;box-shadow:0 12px 32px rgba(16,24,40,0.24);animation:fadeUp 200ms ease;max-width:calc(100% - 32px)">
+    <span style="width:20px;height:20px;flex:0 0 auto;border-radius:999px;background:#22A06B;color:#fff;font:700 11px/20px Inter,sans-serif;text-align:center">↗</span>
+    <span style="font:500 14px/1.4 Inter,sans-serif">{{ toastMessage }}</span>
+  </div>
+</sc-if>
+
+<sc-if value="{{ cookiesOpen }}" hint-placeholder-val="{{ true }}">
+  <div style="position:fixed;left:24px;bottom:24px;z-index:130;width:min(400px,calc(100vw - 48px));background:#fff;border:1px solid #E4E7EC;border-radius:16px;padding:20px;box-shadow:0 12px 32px rgba(16,24,40,0.14)">
+    <p style="margin:0;font:400 14px/1.6 Inter,sans-serif;color:#667085;text-wrap:pretty"><strong style="color:#171A21;font-weight:600">Cookies.</strong> Usamos cookies para entender o uso do site e melhorar a comparação. Você escolhe.</p>
+    <div style="display:flex;flex-wrap:wrap;gap:8px;margin-top:16px">
+      <button data-focus="1" onClick="{{ closeCookies }}" style="height:44px;padding:0 18px;border-radius:12px;background:#6D5DFB;border:none;color:#fff;font:600 14px/1 Inter,sans-serif;cursor:pointer" style-hover="background:#5145CD">Aceitar</button>
+      <button data-focus="1" onClick="{{ closeCookies }}" style="height:44px;padding:0 16px;border-radius:12px;background:#fff;border:1px solid #E4E7EC;color:#171A21;font:600 14px/1 Inter,sans-serif;cursor:pointer" style-hover="background:#F8F9FC">Configurar</button>
+      <button data-focus="1" onClick="{{ closeCookies }}" style="height:44px;padding:0 12px;border-radius:12px;background:none;border:none;color:#667085;font:600 14px/1 Inter,sans-serif;cursor:pointer" style-hover="color:#171A21">Recusar opcionais</button>
+    </div>
+  </div>
+</sc-if>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;showFees&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Catálogo&quot;},&quot;showDiscountBadges&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Catálogo&quot;},&quot;maxCompare&quot;:{&quot;editor&quot;:&quot;int&quot;,&quot;default&quot;:3,&quot;min&quot;:2,&quot;max&quot;:4,&quot;tsType&quot;:&quot;number&quot;,&quot;section&quot;:&quot;Comparação&quot;}}">
+class Component extends DCLogic {
+  products = [
+    {id:'mp-mini', brand:'Mercado Pago', brandColor:'#00A9E0', model:'Point Mini NFC', tagline:'Compacta, aprova pelo celular e aceita aproximação.', badge:'Boa para começar',
+     from:199, price:89, inst:'12x de R$ 8,60', discount:55,
+     feats:['NFC / aproximação','Bluetooth','Bateria até 12 h','Pix na maquininha'],
+     fees:{pix:0.49,deb:1.99,cred:4.98,parc:5.31},
+     printer:false,nfc:true,wifi:false,chip:false,touch:false,bt:true,needsPhone:true,os:'—',receipt:'Digital (SMS / WhatsApp)',battery:'Até 12 h',payout:'1 dia útil',
+     ideal:'Quem está começando, vende pouco por mês e já usa o celular no atendimento.',
+     profiles:['Começando agora','Autônomos','MEI'],
+     pros:['Menor investimento inicial do catálogo','Cabe no bolso e é leve','Aceita Pix direto na maquininha'],
+     notIdeal:['Você não quer depender do celular para vender','Seu cliente pede comprovante impresso'],
+     score:{cheap:5,features:1,noPhone:0,printer:0}},
+
+    {id:'mp-pro', brand:'Mercado Pago', brandColor:'#00A9E0', model:'Point Pro 2', tagline:'Chip próprio e impressora, funciona sem celular.', badge:'Sem celular',
+     from:599, price:399, inst:'12x de R$ 38,40', discount:33,
+     feats:['Chip próprio','Imprime comprovante','NFC / aproximação','Wi-Fi'],
+     fees:{pix:0.49,deb:1.89,cred:4.68,parc:5.09},
+     printer:true,nfc:true,wifi:true,chip:true,touch:false,bt:true,needsPhone:false,os:'Proprietário',receipt:'Impresso e digital',battery:'Até 14 h',payout:'1 dia útil',
+     ideal:'Balcão de loja ou atendimento externo com demanda por comprovante impresso.',
+     profiles:['Lojas','Autônomos','Eventos e vendas externas'],
+     pros:['Funciona sozinha, com chip próprio','Imprime comprovante na hora','Bateria longa para o dia inteiro'],
+     notIdeal:['Você quer o menor preço possível','Você prefere tela grande e aplicativos'],
+     score:{cheap:2,features:4,noPhone:5,printer:5}},
+
+    {id:'mp-smart', brand:'Mercado Pago', brandColor:'#00A9E0', model:'Point Smart 2', tagline:'Tela touch, impressora e sistema com aplicativos.', badge:'Mais completa',
+     from:999, price:649, inst:'12x de R$ 62,40', discount:35,
+     feats:['Touchscreen','Imprime comprovante','Chip próprio + Wi-Fi','Sistema Android'],
+     fees:{pix:0.49,deb:1.79,cred:4.48,parc:4.98},
+     printer:true,nfc:true,wifi:true,chip:true,touch:true,bt:true,needsPhone:false,os:'Android',receipt:'Impresso e digital',battery:'Até 10 h',payout:'1 dia útil',
+     ideal:'Lojas com movimento constante que querem catálogo, gestão e comprovante em um só aparelho.',
+     profiles:['Lojas','Alto volume','Profissionais liberais'],
+     pros:['Tela grande facilita o uso por equipes','Reúne venda, comprovante e gestão','Taxas menores nas faixas de crédito'],
+     notIdeal:['Seu volume mensal ainda é baixo','Você precisa de algo pequeno para carregar'],
+     score:{cheap:0,features:5,noPhone:5,printer:5}},
+
+    {id:'ton-t1', brand:'Ton', brandColor:'#00C97B', model:'Ton T1', tagline:'A opção mais barata para começar a aceitar cartão.', badge:'Compacta',
+     from:129, price:59, inst:'12x de R$ 5,70', discount:54,
+     feats:['NFC / aproximação','Bluetooth','Pix na maquininha','Bateria até 10 h'],
+     fees:{pix:0.99,deb:1.49,cred:4.49,parc:5.19},
+     printer:false,nfc:true,wifi:false,chip:false,touch:false,bt:true,needsPhone:true,os:'—',receipt:'Digital (SMS / WhatsApp)',battery:'Até 10 h',payout:'1 dia útil',
+     ideal:'Vendas ocasionais, feiras e quem quer testar a maquininha gastando pouco.',
+     profiles:['Começando agora','MEI','Eventos e vendas externas'],
+     pros:['Preço de entrada muito baixo','Taxa de débito competitiva','Leve para levar em qualquer lugar'],
+     notIdeal:['Você precisa vender sem celular por perto','Seu cliente espera comprovante impresso'],
+     score:{cheap:5,features:1,noPhone:0,printer:0}},
+
+    {id:'ton-t2', brand:'Ton', brandColor:'#00C97B', model:'Ton T2', tagline:'Chip próprio e Wi-Fi, sem precisar do celular.', badge:'Sem celular',
+     from:399, price:219, inst:'12x de R$ 21,00', discount:45,
+     feats:['Chip próprio','Wi-Fi','NFC / aproximação','Bateria até 12 h'],
+     fees:{pix:0.99,deb:1.39,cred:4.19,parc:4.89},
+     printer:false,nfc:true,wifi:true,chip:true,touch:false,bt:true,needsPhone:false,os:'Proprietário',receipt:'Digital (SMS / WhatsApp)',battery:'Até 12 h',payout:'1 dia útil',
+     ideal:'Quem vende na rua ou atende em casa e não quer depender do celular.',
+     profiles:['Autônomos','Delivery','Profissionais liberais'],
+     pros:['Independente do celular, com chip próprio','Taxas de crédito entre as menores','Preço intermediário acessível'],
+     notIdeal:['Você precisa de comprovante impresso','Você quer tela colorida e aplicativos'],
+     score:{cheap:4,features:3,noPhone:5,printer:0}},
+
+    {id:'ton-t3', brand:'Ton', brandColor:'#00C97B', model:'Ton T3', tagline:'Imprime comprovante e trabalha de forma independente.', badge:'Imprime comprovante',
+     from:599, price:329, inst:'12x de R$ 31,60', discount:45,
+     feats:['Imprime comprovante','Chip próprio + Wi-Fi','NFC / aproximação','Bateria até 12 h'],
+     fees:{pix:0.99,deb:1.39,cred:4.09,parc:4.79},
+     printer:true,nfc:true,wifi:true,chip:true,touch:false,bt:true,needsPhone:false,os:'Proprietário',receipt:'Impresso e digital',battery:'Até 12 h',payout:'1 dia útil',
+     ideal:'Comércio de bairro e delivery que precisa entregar o comprovante em papel.',
+     profiles:['Lojas','Delivery','Alto volume'],
+     pros:['Imprime sem depender de outro aparelho','Boas taxas em crédito e parcelado','Conecta por Wi-Fi ou chip próprio'],
+     notIdeal:['Você quer gastar o mínimo possível','Você prefere uma maquininha de bolso'],
+     score:{cheap:3,features:4,noPhone:5,printer:5}}
+  ];
+
+  questions = [
+    {id:'volume', q:'Quanto você vende por mês?', help:'Usamos isso para pesar preço e taxas na recomendação.', options:['Até R$ 3 mil','R$ 3 mil – R$ 6 mil','R$ 6 mil – R$ 10 mil','Mais de R$ 10 mil']},
+    {id:'printer', q:'Você precisa imprimir comprovante?', help:'Alguns modelos só enviam o comprovante digital.', options:['Sim','Não','Tanto faz']},
+    {id:'phone', q:'Sua maquininha precisa funcionar sem celular?', help:'Modelos com chip próprio funcionam sozinhos.', options:['Sim','Não','Tanto faz']},
+    {id:'priority', q:'O que é mais importante?', help:'Não existe resposta certa — só o que combina com você.', options:['Economizar na compra','Equilibrar preço e recursos','Ter mais recursos']},
+    {id:'place', q:'Onde você vende mais?', help:'Isso ajuda a pesar conectividade e portabilidade.', options:['Loja física','Delivery','Rua / eventos','Atendimento profissional','Online e presencial']}
+  ];
+
+  faqData = [
+    {q:'Como escolher uma maquininha?', a:'Comece pelo seu jeito de vender: onde você atende, se precisa de comprovante impresso e se pode usar o celular. Depois compare o preço do aparelho e as taxas das formas de pagamento que você mais recebe.'},
+    {q:'Preciso ter CNPJ?', a:'Na maioria dos casos não. As empresas comparadas aqui aceitam CPF para pessoa física e autônomos, e CNPJ para MEI e empresas. Confirme as condições no site oficial antes de contratar.'},
+    {q:'Qual funciona sem celular?', a:'Os modelos com chip próprio funcionam de forma independente — no catálogo eles aparecem com o filtro “Sem celular”. Os modelos de bolso dependem do aplicativo no smartphone.'},
+    {q:'Qual imprime comprovante?', a:'Use o filtro “Imprime comprovante” no catálogo. Os modelos sem impressora enviam o comprovante por SMS, e-mail ou WhatsApp.'},
+    {q:'Existe mensalidade?', a:'Os modelos listados não cobram mensalidade pelo uso da maquininha. O custo fica no valor do aparelho e nas taxas por venda. Planos promocionais podem ter regras próprias.'},
+    {q:'Como funcionam as taxas?', a:'A taxa é um percentual descontado de cada venda, e varia conforme a forma de pagamento: Pix, débito, crédito à vista e crédito parcelado. Em uma venda de R$ 100 com taxa de 4%, você recebe R$ 96.'},
+    {q:'Os preços são sempre os mesmos?', a:'Não. As empresas fazem campanhas e ajustes com frequência. Mostramos a data da última atualização e recomendamos confirmar o valor final no site oficial.'},
+    {q:'Onde faço a compra?', a:'Direto no site oficial da empresa escolhida. Ao clicar no botão de compra, você é levado para lá para finalizar o pedido com eles.'},
+    {q:'O site vende as maquininhas?', a:'Não. Aqui você compara e decide. A contratação, a entrega e o suporte são responsabilidade da empresa que você escolher.'}
+  ];
+
+  segmentsData = [
+    {code:'AUT', title:'Autônomos', desc:'Atendimento no local, preço acessível e portabilidade.', profile:'Autônomos'},
+    {code:'MEI', title:'MEI', desc:'Primeira maquininha, com custo baixo para começar.', profile:'MEI'},
+    {code:'LOJ', title:'Lojas', desc:'Balcão com movimento e comprovante impresso.', profile:'Lojas'},
+    {code:'DEL', title:'Delivery', desc:'Entrega na porta, com bateria e conexão estável.', profile:'Delivery'},
+    {code:'EVT', title:'Eventos e vendas externas', desc:'Feiras e rua, sem depender de Wi-Fi fixo.', profile:'Eventos e vendas externas'},
+    {code:'PRO', title:'Profissionais liberais', desc:'Consultório e escritório, com recibo organizado.', profile:'Profissionais liberais'}
+  ];
+
+  criteriaData = [
+    {n:'01', title:'Preço da maquininha', desc:'O valor do aparelho é único. Compare o preço à vista e o parcelamento antes de decidir.'},
+    {n:'02', title:'Taxas por venda', desc:'Veja a taxa da forma de pagamento que você mais recebe, não só a menor do anúncio.'},
+    {n:'03', title:'Conectividade', desc:'Chip próprio e Wi-Fi funcionam sem celular. Bluetooth depende do aplicativo no smartphone.'},
+    {n:'04', title:'Comprovante', desc:'Impressora resolve no balcão. Comprovante digital é suficiente em vendas por delivery.'},
+    {n:'05', title:'Prazo de recebimento', desc:'Confirme em quantos dias o dinheiro cai na conta e se há antecipação com custo.'}
+  ];
+
+  quickData = ['Todas','Mais econômicas','Com impressora','Sem celular','Com NFC','Smart'];
+  profileData = ['Todos','Começando agora','Autônomos','MEI','Lojas','Delivery','Eventos e vendas externas','Profissionais liberais','Alto volume'];
+  featData = ['NFC','Wi-Fi','Chip próprio','Impressora','Touchscreen'];
+
+  state = {view:'home', productId:null, query:'', brand:'Todas', profile:'Todos', quick:'Todas', feats:[],
+    sort:'Recomendadas', compare:[], filtersOpen:false, compareOpen:false, quizOpen:false, qi:0, answers:{},
+    quizDone:false, faqOpen:0, feeTab:'Pix', loading:false, cookies:true, toast:'', scrolled:false};
+
+  componentDidMount(){
+    this._onScroll = () => {
+      const s = (window.scrollY || 0) > 8;
+      if (s !== this.state.scrolled) this.setState({scrolled:s});
+    };
+    window.addEventListener('scroll', this._onScroll, {passive:true});
+  }
+  componentWillUnmount(){
+    window.removeEventListener('scroll', this._onScroll);
+    clearTimeout(this._t); clearTimeout(this._l);
+  }
+
+  money(n){ return 'R$ ' + n.toLocaleString('pt-BR'); }
+  pct(n){ return n.toFixed(2).replace('.', ',') + '%'; }
+  max(){ const m = parseInt(this.props.maxCompare, 10); return m >= 2 && m <= 4 ? m : 3; }
+
+  notify(msg){
+    clearTimeout(this._t);
+    this.setState({toast:msg});
+    this._t = setTimeout(() => this.setState({toast:''}), 2600);
+  }
+
+  featOf(p){
+    return {'NFC':p.nfc,'Wi-Fi':p.wifi,'Chip próprio':p.chip,'Impressora':p.printer,'Touchscreen':p.touch};
+  }
+
+  matchesQuick(p){
+    const q = this.state.quick;
+    if (q === 'Mais econômicas') return p.price <= 250;
+    if (q === 'Com impressora') return p.printer;
+    if (q === 'Sem celular') return !p.needsPhone;
+    if (q === 'Com NFC') return p.nfc;
+    if (q === 'Smart') return p.touch;
+    return true;
+  }
+
+  filteredProducts(){
+    const st = this.state;
+    const term = st.query.trim().toLowerCase();
+    let out = this.products.filter(p => {
+      if (st.brand !== 'Todas' && p.brand !== st.brand) return false;
+      if (st.profile !== 'Todos' && !p.profiles.includes(st.profile)) return false;
+      if (!this.matchesQuick(p)) return false;
+      const map = this.featOf(p);
+      if (st.feats.some(f => !map[f])) return false;
+      if (term) {
+        const hay = (p.model + ' ' + p.brand + ' ' + p.tagline + ' ' + p.feats.join(' ')).toLowerCase();
+        if (!hay.includes(term)) return false;
+      }
+      return true;
+    });
+    if (st.sort === 'Menor preço') out = out.slice().sort((a, b) => a.price - b.price);
+    else if (st.sort === 'Mais recursos') out = out.slice().sort((a, b) => this.featCount(b) - this.featCount(a));
+    return out;
+  }
+
+  featCount(p){ return ['nfc','wifi','chip','printer','touch','bt'].filter(k => p[k]).length; }
+
+  chip(label, active, onClick){
+    return {label, onClick, active,
+      bg: active ? '#EEECFF' : '#fff',
+      fg: active ? '#5145CD' : '#344054',
+      bd: active ? '#C7C1F5' : '#E4E7EC',
+      mark: active ? '✓' : '',
+      checkBg: active ? '#6D5DFB' : '#fff',
+      checkBd: active ? '#6D5DFB' : '#D0D5DD'};
+  }
+
+  toggleCompare(id){
+    const sel = this.state.compare;
+    if (sel.includes(id)) { this.setState({compare:sel.filter(x => x !== id)}); return; }
+    if (sel.length >= this.max()) { this.notify('Você pode comparar até ' + this.max() + ' maquininhas.'); return; }
+    this.setState({compare:sel.concat(id)});
+  }
+
+  cardVals(p){
+    const selected = this.state.compare.includes(p.id);
+    return Object.assign({}, p, {
+      fromLabel: this.money(p.from),
+      priceLabel: this.money(p.price),
+      saveLabel: this.money(p.from - p.price),
+      pixLabel: this.pct(p.fees.pix),
+      debLabel: this.pct(p.fees.deb),
+      credLabel: this.pct(p.fees.cred),
+      parcLabel: this.pct(p.fees.parc),
+      selected,
+      checkBg: selected ? '#6D5DFB' : '#fff',
+      checkBd: selected ? '#6D5DFB' : '#D0D5DD',
+      checkMark: selected ? '✓' : '',
+      cardBorder: selected ? '#C7C1F5' : '#E4E7EC',
+      cardShadow: selected ? '0 4px 12px rgba(109,93,251,0.14)' : '0 1px 2px rgba(16,24,40,0.05)',
+      onOpen: () => { this.setState({view:'product', productId:p.id, quizOpen:false, compareOpen:false}); window.scrollTo(0, 0); },
+      onBuy: () => this.notify('Levaria você ao site oficial de ' + p.brand + ' (link de indicação).'),
+      onCompare: () => this.toggleCompare(p.id)
+    });
+  }
+
+  quizPicks(){
+    const a = this.state.answers;
+    const wantPrinter = a.printer === 'Sim';
+    const noPrinter = a.printer === 'Não';
+    const noPhone = a.phone === 'Sim';
+    const scored = this.products.map(p => {
+      let s = 0; const why = [];
+      if (a.priority === 'Economizar na compra') { s += p.score.cheap * 3; if (p.score.cheap >= 4) why.push('está entre as mais baratas do catálogo'); }
+      if (a.priority === 'Ter mais recursos') { s += p.score.features * 3; if (p.score.features >= 4) why.push('reúne os recursos mais completos'); }
+      if (a.priority === 'Equilibrar preço e recursos') { s += (p.score.cheap + p.score.features) * 1.6; if (p.score.cheap >= 3 && p.score.features >= 3) why.push('equilibra preço de entrada e recursos'); }
+      if (wantPrinter) { s += p.printer ? 8 : -6; if (p.printer) why.push('imprime o comprovante na hora'); }
+      if (noPrinter && !p.printer) { s += 3; why.push('dispensa impressora e sai mais em conta'); }
+      if (noPhone) { s += p.needsPhone ? -7 : 8; if (!p.needsPhone) why.push('funciona sem depender do celular'); }
+      if (a.volume === 'Até R$ 3 mil') { s += p.score.cheap * 2; }
+      if (a.volume === 'Mais de R$ 10 mil') { s += p.score.features * 2 + (5 - p.fees.cred) * 2; why.push('taxas menores ajudam em volume alto'); }
+      if (a.volume === 'R$ 6 mil – R$ 10 mil') { s += p.score.features * 1.2; }
+      const placeMap = {'Loja física':'Lojas','Delivery':'Delivery','Rua / eventos':'Eventos e vendas externas','Atendimento profissional':'Profissionais liberais','Online e presencial':'Lojas'};
+      const seg = placeMap[a.place];
+      if (seg && p.profiles.includes(seg)) { s += 5; why.push('é indicada para quem vende em ' + (a.place || '').toLowerCase()); }
+      return {p, s, why};
+    }).sort((x, y) => y.s - x.s);
+    return scored.map(r => Object.assign({}, this.cardVals(r.p), {
+      reason: r.why.length ? ('Combina porque ' + r.why.slice(0, 2).join(' e ') + '.') : 'Combina com o perfil geral das suas respostas.'
+    }));
+  }
+
+  renderVals(){
+    const st = this.state;
+    const list = this.filteredProducts();
+    const showFees = this.props.showFees !== false;
+    const showDiscount = this.props.showDiscountBadges !== false;
+    const maxC = this.max();
+    const compareProducts = st.compare.map(id => this.products.find(p => p.id === id)).filter(Boolean);
+    const detailProduct = this.products.find(p => p.id === st.productId) || this.products[0];
+
+    const rowDefs = [
+      ['Preço à vista', p => this.money(p.price), false],
+      ['Parcelamento', p => p.inst, false],
+      ['Taxa Pix', p => this.pct(p.fees.pix), false],
+      ['Taxa débito', p => this.pct(p.fees.deb), false],
+      ['Taxa crédito', p => this.pct(p.fees.cred), false],
+      ['Crédito parcelado', p => this.pct(p.fees.parc), false],
+      ['NFC / aproximação', p => p.nfc ? 'Sim' : 'Não', true],
+      ['Chip próprio', p => p.chip ? 'Sim' : 'Não', true],
+      ['Wi-Fi', p => p.wifi ? 'Sim' : 'Não', true],
+      ['Bluetooth', p => p.bt ? 'Sim' : 'Não', true],
+      ['Impressora', p => p.printer ? 'Sim' : 'Não', true],
+      ['Touchscreen', p => p.touch ? 'Sim' : 'Não', true],
+      ['Sistema', p => p.os, false],
+      ['Precisa de celular?', p => p.needsPhone ? 'Sim' : 'Não', true],
+      ['Comprovante', p => p.receipt, false],
+      ['Bateria', p => p.battery, false],
+      ['Recebimento', p => p.payout, false],
+      ['Ideal para', p => p.profiles.slice(0, 2).join(', '), false]
+    ];
+    const compareRows = rowDefs.map((def, i) => {
+      const vals = compareProducts.map(p => def[1](p));
+      const diff = compareProducts.length > 1 && new Set(vals).size > 1;
+      return {
+        label: def[0], diff,
+        rowBg: i % 2 === 1 ? '#FCFCFE' : '#fff',
+        cells: vals.map(v => ({v, color: def[2] && v === 'Não' ? '#98A2B3' : '#171A21'}))
+      };
+    });
+
+    const feeKey = {'Pix':'pix','Débito':'deb','Crédito':'cred','Parcelado':'parc'}[st.feeTab];
+    const feeRows = this.products.slice().sort((a, b) => a.fees[feeKey] - b.fees[feeKey]).map(p => ({
+      model: p.model, brand: p.brand, brandColor: p.brandColor,
+      rate: this.pct(p.fees[feeKey]),
+      net: 'R$ ' + (100 - p.fees[feeKey]).toFixed(2).replace('.', ',')
+    }));
+    const avg = this.products.reduce((s, p) => s + p.fees[feeKey], 0) / this.products.length;
+    const feeTitles = {'Pix':'Pix recebido na maquininha','Débito':'Venda no cartão de débito','Crédito':'Crédito à vista','Parcelado':'Crédito parcelado em 12x'};
+    const feeNotes = {
+      'Pix':'O Pix na maquininha cai na conta na hora, com a menor taxa entre as formas de pagamento.',
+      'Débito':'O débito costuma ter a segunda menor taxa e recebimento em 1 dia útil.',
+      'Crédito':'No crédito à vista o dinheiro pode cair em 1 dia útil, com taxa maior que o débito.',
+      'Parcelado':'No parcelado a taxa cresce conforme o número de parcelas. O valor mostrado é o ponto de partida.'
+    };
+
+    const highlightDefs = [
+      ['Para começar gastando menos', 'Ordenado pelo menor preço do aparelho', a => a.slice().sort((x, y) => x.price - y.price)],
+      ['Para quem precisa imprimir', 'Filtra modelos com impressora integrada', a => a.filter(p => p.printer)],
+      ['Para vender em qualquer lugar', 'Filtra modelos que funcionam sem celular', a => a.filter(p => !p.needsPhone)],
+      ['Para quem quer uma maquininha completa', 'Ordenado pela quantidade de recursos', a => a.slice().sort((x, y) => this.featCount(y) - this.featCount(x))]
+    ];
+
+    const picks = st.quizDone ? this.quizPicks() : [];
+    const q = this.questions[Math.min(st.qi, this.questions.length - 1)];
+
+    return {
+      headerShadow: st.scrolled ? '0 4px 12px rgba(16,24,40,0.06)' : 'none',
+      isHome: st.view === 'home',
+      isProduct: st.view === 'product',
+      goHome: e => { if (e) e.preventDefault(); this.setState({view:'home'}); },
+      query: st.query,
+      onQuery: e => this.setState({query:e.target.value}),
+      sort: st.sort,
+      onSort: e => this.setState({sort:e.target.value}),
+      loading: st.loading,
+      reload: () => { this.setState({loading:true}); clearTimeout(this._l); this._l = setTimeout(() => this.setState({loading:false}), 1200); },
+      skeletons: [1, 2, 3],
+      isEmpty: !st.loading && list.length === 0,
+      showGrid: !st.loading && list.length > 0,
+      list: list.map(p => this.cardVals(p)),
+      resultLabel: list.length === 1 ? '1 maquininha encontrada' : list.length + ' maquininhas encontradas',
+      showFees, showDiscount,
+
+      quickChips: this.quickData.map(l => this.chip(l, st.quick === l, () => this.setState({quick:l}))),
+      profileChips: this.profileData.map(l => this.chip(l, st.profile === l, () => this.setState({profile:l}))),
+      featChips: this.featData.map(l => this.chip(l, st.feats.includes(l), () => this.setState({feats: st.feats.includes(l) ? st.feats.filter(x => x !== l) : st.feats.concat(l)}))),
+      brandTabs: ['Todas', 'Mercado Pago', 'Ton'].map(l => ({
+        label: l, onClick: () => this.setState({brand:l}),
+        bg: st.brand === l ? '#fff' : 'transparent',
+        fg: st.brand === l ? '#171A21' : '#667085',
+        sh: st.brand === l ? '0 1px 2px rgba(16,24,40,0.08)' : 'none'
+      })),
+      brandRadios: ['Todas', 'Mercado Pago', 'Ton'].map(l => ({
+        label: l, active: st.brand === l, onClick: () => this.setState({brand:l}),
+        bg: st.brand === l ? '#EEECFF' : '#fff',
+        bd: st.brand === l ? '#C7C1F5' : '#E4E7EC',
+        dot: st.brand === l ? '#6D5DFB' : 'transparent',
+        dotBd: st.brand === l ? '#6D5DFB' : '#D0D5DD'
+      })),
+      activeFilterCount: (st.brand !== 'Todas' ? 1 : 0) + (st.profile !== 'Todos' ? 1 : 0) + st.feats.length + (st.quick !== 'Todas' ? 1 : 0),
+      clearFilters: () => this.setState({brand:'Todas', profile:'Todos', feats:[], quick:'Todas', query:''}),
+      filtersOpen: st.filtersOpen,
+      openFilters: () => this.setState({filtersOpen:true}),
+      closeFilters: () => this.setState({filtersOpen:false}),
+      applyLabel: 'Ver ' + list.length + ' maquininhas',
+
+      segments: this.segmentsData.map(s => Object.assign({}, s, {
+        onClick: () => { this.setState({profile:s.profile, quick:'Todas'}); const el = document.getElementById('catalogo'); if (el) window.scrollTo(0, el.offsetTop - 80); }
+      })),
+      criteria: this.criteriaData,
+
+      feeTabs: ['Pix', 'Débito', 'Crédito', 'Parcelado'].map(l => ({
+        label: l, onClick: () => this.setState({feeTab:l}),
+        bg: st.feeTab === l ? '#171A21' : 'transparent',
+        fg: st.feeTab === l ? '#fff' : '#667085'
+      })),
+      feeRows,
+      feeExampleTitle: feeTitles[st.feeTab],
+      feeAvgLabel: this.pct(avg),
+      feeBarWidth: Math.max(6, avg * 12) + '%',
+      feeNetLabel: 'R$ ' + (100 - avg).toFixed(2).replace('.', ','),
+      feeNote: feeNotes[st.feeTab],
+
+      highlights: highlightDefs.map(d => ({
+        title: d[0], rule: d[1],
+        items: d[2](this.products).slice(0, 3).map(p => this.cardVals(p))
+      })),
+
+      faqs: this.faqData.map((f, i) => ({
+        q: f.q, a: f.a, open: st.faqOpen === i, icon: st.faqOpen === i ? '−' : '+',
+        onClick: () => this.setState({faqOpen: st.faqOpen === i ? -1 : i})
+      })),
+
+      compareCount: st.compare.length,
+      compareItems: compareProducts.map(p => Object.assign({}, this.cardVals(p), {onRemove: () => this.toggleCompare(p.id)})),
+      compareBarVisible: st.compare.length > 0 && !st.compareOpen && !st.quizOpen,
+      compareBarLabel: st.compare.length + ' de ' + maxC + ' maquininhas selecionadas',
+      canAddCompare: st.compare.length < maxC,
+      clearCompare: () => this.setState({compare:[]}),
+      compareOpen: st.compareOpen,
+      openCompare: e => { if (e) e.preventDefault(); this.setState({compareOpen:true}); },
+      closeCompare: () => this.setState({compareOpen:false}),
+      compareEmpty: st.compare.length === 0,
+      compareReady: st.compare.length > 0,
+      compareRows,
+      maxCompare: maxC,
+      tableCols: '200px repeat(' + Math.max(1, compareProducts.length) + ', minmax(180px, 1fr))',
+      tableMinWidth: (200 + Math.max(1, compareProducts.length) * 200) + 'px',
+
+      detail: Object.assign({}, this.cardVals(detailProduct), {
+        specs: [
+          {k:'Conectividade', v:[detailProduct.chip ? 'Chip próprio' : null, detailProduct.wifi ? 'Wi-Fi' : null, detailProduct.bt ? 'Bluetooth' : null].filter(Boolean).join(' · ')},
+          {k:'NFC / aproximação', v:detailProduct.nfc ? 'Sim' : 'Não'},
+          {k:'Impressora', v:detailProduct.printer ? 'Integrada' : 'Não possui'},
+          {k:'Touchscreen', v:detailProduct.touch ? 'Sim' : 'Não'},
+          {k:'Sistema', v:detailProduct.os},
+          {k:'Bateria', v:detailProduct.battery},
+          {k:'Precisa de celular', v:detailProduct.needsPhone ? 'Sim' : 'Não'},
+          {k:'Comprovante', v:detailProduct.receipt},
+          {k:'Recebimento', v:detailProduct.payout}
+        ],
+        compareLabel: st.compare.includes(detailProduct.id) ? 'Remover da comparação' : 'Adicionar à comparação'
+      }),
+      similar: this.products.filter(p => p.id !== detailProduct.id).slice(0, 3).map(p => this.cardVals(p)),
+
+      quizOpen: st.quizOpen,
+      quizAsking: st.quizOpen && !st.quizDone,
+      quizDone: st.quizOpen && st.quizDone,
+      startQuiz: e => { if (e) e.preventDefault(); this.setState({quizOpen:true, qi:0, quizDone:false, answers:{}}); },
+      closeQuiz: () => this.setState({quizOpen:false}),
+      restartQuiz: () => this.setState({qi:0, answers:{}, quizDone:false}),
+      quizStepLabel: 'Pergunta ' + (st.qi + 1) + ' de ' + this.questions.length,
+      quizProgress: Math.round(((st.quizDone ? this.questions.length : st.qi) / this.questions.length) * 100) + '%',
+      quizQuestion: q.q,
+      quizHelp: q.help,
+      quizOptions: q.options.map((label, i) => {
+        const active = st.answers[q.id] === label;
+        return {
+          label, key: String.fromCharCode(65 + i),
+          bg: active ? '#EEECFF' : '#fff',
+          bd: active ? '#6D5DFB' : '#E4E7EC',
+          fg: active ? '#3f3699' : '#171A21',
+          dotBg: active ? '#6D5DFB' : '#F8F9FC',
+          dotFg: active ? '#fff' : '#98A2B3',
+          dotBd: active ? '#6D5DFB' : '#E4E7EC',
+          onClick: () => {
+            const answers = Object.assign({}, st.answers); answers[q.id] = label;
+            const last = st.qi >= this.questions.length - 1;
+            this.setState({answers, qi: last ? st.qi : st.qi + 1, quizDone: last});
+            window.scrollTo(0, 0);
+          }
+        };
+      }),
+      quizSkip: () => {
+        const last = st.qi >= this.questions.length - 1;
+        this.setState({qi: last ? st.qi : st.qi + 1, quizDone: last});
+      },
+      quizBack: () => { if (st.quizDone) this.setState({quizDone:false}); else if (st.qi > 0) this.setState({qi:st.qi - 1}); else this.setState({quizOpen:false}); },
+      topPick: picks[0] || this.cardVals(this.products[0]),
+      altPicks: picks.slice(1, 3),
+      compareResults: () => this.setState({compare: picks.slice(0, maxC).map(p => p.id), quizOpen:false, compareOpen:true}),
+
+      toast: !!st.toast,
+      toastMessage: st.toast,
+      cookiesOpen: st.cookies,
+      closeCookies: () => this.setState({cookies:false})
+    };
+  }
+}
+</script>
+</body>
+</html>
