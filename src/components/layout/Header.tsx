@@ -19,7 +19,7 @@ export function Header() {
 
   return (
     <header
-      className={`sticky top-0 z-60 border-b border-border bg-white/88 backdrop-blur-md transition-shadow ${
+      className={`sticky top-0 z-60 border-b border-[#2b3040] bg-footer/95 backdrop-blur-md transition-shadow ${
         scrolled ? "shadow-header-scrolled" : "shadow-none"
       }`}
     >
@@ -28,7 +28,7 @@ export function Header() {
           <span className="flex h-8 w-8 items-center justify-center rounded-[10px] bg-primary font-manrope text-[15px] font-extrabold text-white">
             C
           </span>
-          <span className="font-manrope text-xl font-extrabold tracking-[-0.02em] text-text">
+          <span className="font-manrope text-xl font-extrabold tracking-[-0.02em] text-white">
             comparô
           </span>
         </Link>
@@ -38,7 +38,7 @@ export function Header() {
             <Link
               key={item.href}
               href={item.href}
-              className="rounded-lg px-3 py-2 font-inter text-[15px] font-medium text-muted hover:text-text"
+              className="rounded-lg px-3 py-2 font-inter text-[15px] font-medium text-muted-2 transition-colors hover:text-white"
             >
               {item.label}
             </Link>
@@ -49,7 +49,7 @@ export function Header() {
           <button
             data-focus="1"
             onClick={compare.open}
-            className="flex h-11 cursor-pointer items-center gap-2 rounded-xl border border-border bg-white px-4 font-inter text-[15px] font-semibold text-text hover:border-border-hover hover:bg-bg"
+            className="flex h-11 cursor-pointer items-center gap-2 rounded-xl border border-[#2b3040] bg-transparent px-4 font-inter text-[15px] font-semibold text-white transition-colors hover:border-[#3a4152] hover:bg-[#20242e]"
           >
             <span className="hidden sm:inline">Comparar</span>
             <span className="flex h-5 min-w-5 items-center justify-center rounded-full bg-primary-soft px-1.5 font-inter text-xs font-bold text-primary-dark">
@@ -59,7 +59,7 @@ export function Header() {
           <button
             data-focus="1"
             onClick={quiz.start}
-            className="h-11 cursor-pointer rounded-xl border border-primary bg-primary px-4.5 font-inter text-[15px] font-semibold whitespace-nowrap text-white shadow-card hover:border-primary-dark hover:bg-primary-dark"
+            className="h-11 cursor-pointer rounded-xl border border-primary bg-primary px-4.5 font-inter text-[15px] font-semibold whitespace-nowrap text-white shadow-card transition-[background-color,transform] hover:-translate-y-0.5 hover:border-primary-dark hover:bg-primary-dark"
           >
             <span className="hidden sm:inline">Descobrir minha maquininha</span>
             <span className="sm:hidden">Descobrir</span>

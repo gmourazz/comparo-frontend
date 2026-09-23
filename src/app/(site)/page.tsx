@@ -13,6 +13,7 @@ import { FinalCtaSection } from "@/components/home/FinalCtaSection";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { buildFaqJsonLd, buildItemListJsonLd } from "@/lib/structured-data";
 import { faqData } from "@/config/content/faq";
+import { Reveal } from "@/components/ui/Reveal";
 
 export default async function HomePage() {
   const machines = await getActiveMachines();
@@ -21,17 +22,33 @@ export default async function HomePage() {
     <main>
       <JsonLd data={buildItemListJsonLd(machines)} />
       <JsonLd data={buildFaqJsonLd(faqData)} />
-      <HeroSection />
+      <HeroSection machines={machines} />
       <BrandsStrip />
       <CatalogFilterProvider>
-        <CatalogSection machines={machines} />
-        <QuizPromoBanner />
-        <SegmentsGrid />
-        <CriteriaList />
-        <FeesSection machines={machines} />
-        <HighlightsSection machines={machines} />
-        <FaqAccordion />
-        <FinalCtaSection />
+        <Reveal>
+          <CatalogSection machines={machines} />
+        </Reveal>
+        <Reveal>
+          <QuizPromoBanner />
+        </Reveal>
+        <Reveal>
+          <SegmentsGrid />
+        </Reveal>
+        <Reveal>
+          <CriteriaList />
+        </Reveal>
+        <Reveal>
+          <FeesSection machines={machines} />
+        </Reveal>
+        <Reveal>
+          <HighlightsSection machines={machines} />
+        </Reveal>
+        <Reveal>
+          <FaqAccordion />
+        </Reveal>
+        <Reveal>
+          <FinalCtaSection />
+        </Reveal>
       </CatalogFilterProvider>
     </main>
   );

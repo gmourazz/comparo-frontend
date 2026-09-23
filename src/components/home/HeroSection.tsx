@@ -1,3 +1,4 @@
+import type { Machine } from "@/types/machine";
 import { Container } from "@/components/ui/Container";
 import { QuizTriggerButton } from "@/features/quiz/QuizTriggerButton";
 
@@ -7,7 +8,21 @@ const checks = [
   "Compra no site oficial",
 ];
 
-export function HeroSection() {
+function pickHeroMachines(machines: Machine[]) {
+  const withImage = machines.filter((m) => m.image);
+  const printer = withImage.find((m) => m.hasPrinter);
+  const mini =
+    withImage.find((m) => m !== printer && m.name.toLowerCase().includes("mini")) ??
+    withImage.find((m) => m !== printer);
+  const main = withImage.find(
+    (m) => m !== printer && m !== mini && (m.hasNfc || m.hasTouchscreen),
+  );
+  return { main, mini, printer };
+}
+
+export function HeroSection({ machines }: { machines: Machine[] }) {
+  const { main, mini, printer } = pickHeroMachines(machines);
+
   return (
     <section className="relative overflow-hidden border-b border-border bg-white">
       <div
@@ -56,27 +71,9 @@ export function HeroSection() {
         <div className="relative min-w-0">
           <div className="relative rounded-3xl border border-border bg-bg p-6 shadow-dropdown">
             <div className="grid grid-cols-[1.25fr_1fr] grid-rows-2 gap-4">
-              <div className="row-span-2 flex aspect-3/4 items-end justify-center rounded-2xl border border-dashed border-border-hover bg-white p-4 [background-image:repeating-linear-gradient(135deg,rgba(109,93,251,0.06)_0_10px,transparent_10px_20px)]">
-                <span className="text-center font-mono text-[11px] leading-relaxed text-muted-2 tracking-[0.04em]">
-                  [ IMAGEM OFICIAL ]
-                  <br />
-                  maquininha smart
-                </span>
-              </div>
-              <div className="flex aspect-square items-end justify-center rounded-2xl border border-dashed border-border-hover bg-white p-3 [background-image:repeating-linear-gradient(135deg,rgba(109,93,251,0.06)_0_10px,transparent_10px_20px)]">
-                <span className="text-center font-mono text-[10px] leading-relaxed text-muted-2 tracking-[0.04em]">
-                  [ IMAGEM ]
-                  <br />
-                  modelo mini
-                </span>
-              </div>
-              <div className="flex aspect-square items-end justify-center rounded-2xl border border-dashed border-border-hover bg-white p-3 [background-image:repeating-linear-gradient(135deg,rgba(109,93,251,0.06)_0_10px,transparent_10px_20px)]">
-                <span className="text-center font-mono text-[10px] leading-relaxed text-muted-2 tracking-[0.04em]">
-                  [ IMAGEM ]
-                  <br />
-                  com impressora
-                </span>
-              </div>
+              <HeroTile machine={main} fallbackLabel="maquininha smart" big />
+              <HeroTile machine={mini} fallbackLabel="modelo mini" />
+              <HeroTile machine={printer} fallbackLabel="com impressora" />
             </div>
             <FloatingBadge className="top-[-14px] left-[-16px]" dot="bg-success" label="Pix" />
             <FloatingBadge className="top-[38%] right-[-18px]" dot="bg-primary" label="Com NFC" />
@@ -85,6 +82,39 @@ export function HeroSection() {
         </div>
       </Container>
     </section>
+  );
+}
+
+function HeroTile({
+  machine,
+  fallbackLabel,
+  big,
+}: {
+  machine: Machine | undefined;
+  fallbackLabel: string;
+  big?: boolean;
+}) {
+  const sizeClass = big ? "row-span-2 aspect-3/4 p-4" : "aspect-square p-3";
+
+  if (machine?.image) {
+    return (
+      <div className={`flex items-center justify-center overflow-hidden rounded-2xl border border-border-hover bg-white ${sizeClass}`}>
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img src={machine.image} alt={machine.name} className="h-full w-full object-contain" />
+      </div>
+    );
+  }
+
+  return (
+    <div
+      className={`flex items-end justify-center rounded-2xl border border-dashed border-border-hover bg-white bg-[repeating-linear-gradient(135deg,rgba(109,93,251,0.06)_0_10px,transparent_10px_20px)] ${sizeClass}`}
+    >
+      <span className="text-center font-mono text-[10px] leading-relaxed text-muted-2 tracking-[0.04em]">
+        [ IMAGEM ]
+        <br />
+        {fallbackLabel}
+      </span>
+    </div>
   );
 }
 

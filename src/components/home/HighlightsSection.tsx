@@ -30,7 +30,17 @@ export function HighlightsSection({ machines }: { machines: Machine[] }) {
                   href={`/maquininhas/${m.slug}`}
                   className="flex items-center gap-3 rounded-xl border border-border bg-bg p-2.5 hover:border-border-hover hover:bg-white"
                 >
-                  <span className="h-11 w-11 flex-none rounded-[10px] border border-dashed border-border-hover bg-white [background-image:repeating-linear-gradient(135deg,rgba(109,93,251,0.06)_0_8px,transparent_8px_16px)]" />
+                  {m.image ? (
+                    // eslint-disable-next-line @next/next/no-img-element
+                    <img
+                      src={m.image}
+                      alt={m.name}
+                      className="h-11 w-11 flex-none rounded-[10px] border border-border-hover bg-white object-contain p-1"
+                      loading="lazy"
+                    />
+                  ) : (
+                    <span className="h-11 w-11 flex-none rounded-[10px] border border-dashed border-border-hover bg-white bg-[repeating-linear-gradient(135deg,rgba(109,93,251,0.06)_0_8px,transparent_8px_16px)]" />
+                  )}
                   <span className="min-w-0 flex-1">
                     <span className="block font-inter text-sm font-semibold text-text">{m.name}</span>
                     <span className="mt-0.75 block font-inter text-xs font-medium text-muted">

@@ -2,19 +2,19 @@ import { Container } from "@/components/ui/Container";
 
 export function BrandsStrip() {
   return (
-    <section className="border-b border-border bg-white">
-      <Container className="flex flex-wrap items-center gap-x-8 gap-y-4 py-6">
+    <section className="border-b border-border bg-bg">
+      <Container className="flex flex-wrap items-center gap-x-8 gap-y-4 py-7">
         <span className="font-inter text-sm font-medium text-muted-2">Compare opções de</span>
         <div className="flex flex-wrap items-center gap-3">
-          <span className="flex h-9 items-center gap-2 rounded-[10px] border border-border bg-white px-3.5 font-inter text-sm font-semibold text-text-strong">
-            <span className="h-2 w-2 rounded-sm bg-brand-mp" />
+          <span className="flex h-10 items-center gap-2.5 rounded-[10px] border border-border bg-white px-4 font-inter text-sm font-semibold text-text-strong shadow-card transition-[transform,box-shadow] duration-200 hover:-translate-y-0.5 hover:shadow-[0_8px_20px_rgba(16,24,40,0.08)]">
+            <span className="h-2.5 w-2.5 rounded-full bg-brand-mp" />
             Mercado Pago / Point
           </span>
-          <span className="flex h-9 items-center gap-2 rounded-[10px] border border-border bg-white px-3.5 font-inter text-sm font-semibold text-text-strong">
-            <span className="h-2 w-2 rounded-sm bg-brand-ton" />
+          <span className="flex h-10 items-center gap-2.5 rounded-[10px] border border-border bg-white px-4 font-inter text-sm font-semibold text-text-strong shadow-card transition-[transform,box-shadow] duration-200 hover:-translate-y-0.5 hover:shadow-[0_8px_20px_rgba(16,24,40,0.08)]">
+            <span className="h-2.5 w-2.5 rounded-full bg-brand-ton" />
             Ton
           </span>
-          <span className="flex h-9 items-center rounded-[10px] border border-dashed border-border-hover px-3.5 font-inter text-sm font-medium text-muted-2">
+          <span className="flex h-10 items-center rounded-[10px] border border-dashed border-border-hover px-4 font-inter text-sm font-medium text-muted-2">
             Mais marcas em breve
           </span>
         </div>

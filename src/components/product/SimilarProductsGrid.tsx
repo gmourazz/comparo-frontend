@@ -16,7 +16,17 @@ export function SimilarProductsGrid({ items }: { items: Machine[] }) {
             href={`/maquininhas/${m.slug}`}
             className="flex items-center gap-3.5 rounded-2xl border border-border bg-white p-4 hover:border-border-hover hover:shadow-[0_4px_12px_rgba(16,24,40,0.08)]"
           >
-            <span className="h-16 w-16 flex-none rounded-xl border border-dashed border-border-hover bg-bg [background-image:repeating-linear-gradient(135deg,rgba(109,93,251,0.06)_0_8px,transparent_8px_16px)]" />
+            {m.image ? (
+              // eslint-disable-next-line @next/next/no-img-element
+              <img
+                src={m.image}
+                alt={m.name}
+                className="h-16 w-16 flex-none rounded-xl border border-border-hover bg-bg object-contain p-1.5"
+                loading="lazy"
+              />
+            ) : (
+              <span className="h-16 w-16 flex-none rounded-xl border border-dashed border-border-hover bg-bg bg-[repeating-linear-gradient(135deg,rgba(109,93,251,0.06)_0_8px,transparent_8px_16px)]" />
+            )}
             <span className="min-w-0 flex-1">
               <span className="block font-inter text-xs text-muted-2">{m.brand}</span>
               <span className="mt-1.25 block font-manrope text-base leading-tight font-bold text-text">
